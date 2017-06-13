@@ -2,3 +2,9 @@ sites/
 .classpath.xml
 .project.xml
 .settings/
+.idea/
+data/
+pom.xml
+*.iml
+src/main/
+target/
