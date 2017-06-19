@@ -6,6 +6,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -21,7 +22,14 @@ public class SiteDataController {
 	public Site newSite(Stage primaryStage) {
 		Site site;
 		SiteDataDialog dialog = new SiteDataDialog(primaryStage);
-		
+
+		ArrayList<String> schemaList = new ArrayList<>();
+		schemaList.add("http");
+		schemaList.add("https");
+
+		dialog.setSchemaList(schemaList);
+		dialog.setSchema("http");
+		dialog.setPort(80);
 		dialog.init("Create a Site", "Create");
 		dialog.showAndWait();
 		
