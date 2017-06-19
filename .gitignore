@@ -6,5 +6,4 @@ sites/
 data/
 pom.xml
 *.iml
-src/main/
 target/

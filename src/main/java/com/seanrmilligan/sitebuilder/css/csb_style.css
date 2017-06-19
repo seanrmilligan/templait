@@ -1,0 +1,50 @@
+/* 
+    This style sheet stylizes the controls inside our
+    CourseSiteBuilder JavaFX application. Note that controls
+    in the UI must have the same class as those below in 
+    order to be rendered using those properties.
+
+    Author     : Richard McKenna
+*/
+
+.progress_bar > .bar{
+    -fx-background-color: linear-gradient(
+        from 0px .75em to .75em 0px,
+        repeat,
+        -fx-accent 0%,
+        -fx-accent 49%,
+        derive(-fx-accent, 30%) 50%,
+        derive(-fx-accent, 30%) 99%);
+}
+
+.progress_pie {
+    -fx-progress-color:#ff33cc;
+}
+
+// CSS CLASS FOR OUR BIG PANES
+.bordered_pane {
+    -fx-background-color: #aaaaff;
+    -fx-background-radius: 5.0;
+    -fx-padding: 15;
+    -fx-spacing: 10;
+    -fx-border-width: 2px;
+    -fx-border-color: #7777dd;
+}
+
+// CSS CLASS FOR LABELS HEADING LARGE SECTIONS IN THE GUI
+.heading_label {
+    -fx-font-size: 20pt;
+    -fx-font-weight: bold;
+}
+
+// CSS CLASS FOR LABELS HEADING SUBSECTIONS IN THE GUI
+.subheading_label {
+    -fx-font-size: 14pt;
+    -fx-font-weight: bold;
+}
+
+// CSS CLASS FOR LABELS SERVING AS PROMPTS IN THE GUI
+.prompt_label {
+    -fx-font-size: 10pt;
+    -fx-font-weight: bold;
+}
