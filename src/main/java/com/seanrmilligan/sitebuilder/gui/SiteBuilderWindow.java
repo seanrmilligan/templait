@@ -1,6 +1,6 @@
 package com.seanrmilligan.sitebuilder.gui;
 
-import com.seanrmilligan.sitebuilder.data.SiteBuilderView;
+import com.seanrmilligan.sitebuilder.model.SiteBuilderView;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;

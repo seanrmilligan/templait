@@ -1,7 +1,7 @@
 package com.seanrmilligan.sitebuilder;
 
 import com.seanrmilligan.sitebuilder.controller.SiteController;
-import com.seanrmilligan.sitebuilder.data.Site;
+import com.seanrmilligan.sitebuilder.model.Site;
 import com.seanrmilligan.sitebuilder.gui.SiteBuilderWindow;
 
 import java.util.Locale;
