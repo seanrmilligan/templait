@@ -1,4 +1,4 @@
-package com.seanrmilligan.sitebuilder.gui;
+package com.seanrmilligan.sitebuilder.view;
 
 import java.net.MalformedURLException;
 import javafx.scene.Scene;

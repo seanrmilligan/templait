@@ -1,4 +1,4 @@
-package com.seanrmilligan.sitebuilder.gui;
+package com.seanrmilligan.sitebuilder.view;
 
 import com.seanrmilligan.sitebuilder.model.SiteBuilderView;
 import javafx.scene.Scene;

@@ -1,30 +1,28 @@
 package com.seanrmilligan.sitebuilder;
 
-import com.seanrmilligan.sitebuilder.controller.SiteController;
+import com.seanrmilligan.sitebuilder.controller.SiteDataController;
 import com.seanrmilligan.sitebuilder.model.Site;
-import com.seanrmilligan.sitebuilder.gui.SiteBuilderWindow;
+import com.seanrmilligan.sitebuilder.view.SiteBuilderWindow;
 
 import java.util.Locale;
 
-import com.seanrmilligan.sitebuilder.gui.StartWindow;
+import com.seanrmilligan.sitebuilder.view.StartWindow;
 import com.seanrmilligan.utils.Action;
-import com.seanrmilligan.utils.ActionableController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class SiteBuilder extends Application {
 	SiteBuilderWindow gui;
-	SiteController siteController;
-
+	SiteDataController siteDataController;
 
 	/**
 	 * @param primaryStage This application's window.
 	 */
 	@Override
 	public void start(Stage primaryStage) {
-		this.siteController = new SiteController();
+		this.siteDataController = new SiteDataController();
 		Site site = this.startup(primaryStage);
-		
+
 		if (site != null) {
 			this.gui = new SiteBuilderWindow(primaryStage);
 			this.gui.init("Site Builder");
@@ -45,15 +43,17 @@ public class SiteBuilder extends Application {
 		
 		switch (action) {
 			case NEW:
-				site = this.siteController.newSite(primaryStage);
+				site = this.siteDataController.newSite(primaryStage);
 				break;
 			case LOAD:
 				try {
-					site = this.siteController.loadSite(primaryStage);
+					site = this.siteDataController.loadSite(primaryStage);
 				} catch (Exception e) {
 					System.out.println(e.toString());
 				}
 				break;
+			default:
+				System.err.println("Invalid action: " + action.toString());
 		}
 		
 		return site;

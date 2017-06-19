@@ -30,8 +30,10 @@ public enum Action {
     NO,
     NEXT,
     PREV,
+    NEW,
+    LOAD,
+    OPEN,
     CANCEL,
     CLOSE,
-    NEW,
-    LOAD
+    NO_ACTION
 }

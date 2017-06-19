@@ -1,4 +1,4 @@
-package com.seanrmilligan.sitebuilder.gui;
+package com.seanrmilligan.sitebuilder.view;
 
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -11,14 +11,14 @@ import javafx.stage.Stage;
 /**
  * Created by sean on 6/5/17.
  */
-public class SiteDialog extends Stage {
+public class SiteDataDialog extends Stage {
     Scene scene;
     private GridPane pane;
     private TextField siteName;
     private TextField siteDomain;
     private Button submit;
 
-    public SiteDialog(Stage owner) {
+    public SiteDataDialog(Stage owner) {
         this.initOwner(owner);
         this.initModality(Modality.WINDOW_MODAL);
 
@@ -28,7 +28,7 @@ public class SiteDialog extends Stage {
         this.submit = new Button();
 
         this.submit.setOnAction(e -> {
-            SiteDialog.this.hide();
+            SiteDataDialog.this.hide();
         });
 
         this.pane.add(this.siteName, 0, 0, 3, 1);

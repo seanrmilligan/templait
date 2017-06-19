@@ -1,8 +1,6 @@
-package com.seanrmilligan.sitebuilder.gui;
+package com.seanrmilligan.sitebuilder.view;
 
 import com.seanrmilligan.utils.Action;
-import com.seanrmilligan.utils.ActionableController;
-import com.seanrmilligan.utils.ActionableView;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -33,6 +31,8 @@ public class StartWindow extends Stage {
         this.newButton = new Button("New Site");
         
         this.appTitle.setFont(new Font(15));
+
+        this.action = Action.NO_ACTION;
 
         this.newButton.setOnAction(e -> {
             this.action = Action.NEW;

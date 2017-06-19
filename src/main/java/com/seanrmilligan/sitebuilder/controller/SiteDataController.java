@@ -1,7 +1,7 @@
 package com.seanrmilligan.sitebuilder.controller;
 
 import com.seanrmilligan.sitebuilder.model.Site;
-import com.seanrmilligan.sitebuilder.gui.SiteDialog;
+import com.seanrmilligan.sitebuilder.view.SiteDataDialog;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
@@ -14,13 +14,13 @@ import org.json.JSONTokener;
 /**
  * Created by sean on 6/6/17.
  */
-public class SiteController {
+public class SiteDataController {
 	private static final String projectDirName = ".sb";
 	private static final String projectJsonFileName = "project.json";
 	
 	public Site newSite(Stage primaryStage) {
 		Site site;
-		SiteDialog dialog = new SiteDialog(primaryStage);
+		SiteDataDialog dialog = new SiteDataDialog(primaryStage);
 		
 		dialog.init("Create a Site", "Create");
 		dialog.showAndWait();
@@ -44,7 +44,7 @@ public class SiteController {
 		}
 		
 		for (File item : projDir.listFiles()) {
-			if (item.isDirectory() && item.getName().equals(SiteController.projectDirName)) {
+			if (item.isDirectory() && item.getName().equals(SiteDataController.projectDirName)) {
 				sbDir = item;
 				break;
 			}
@@ -55,14 +55,14 @@ public class SiteController {
 		}
 		
 		for (File item : sbDir.listFiles()) {
-			if (item.isFile() && item.getName().equals(SiteController.projectJsonFileName)) {
+			if (item.isFile() && item.getName().equals(SiteDataController.projectJsonFileName)) {
 				projFile = item;
 				break;
 			}
 		}
 		
 		if (projFile == null) {
-			throw new FileNotFoundException("File not found: " + SiteController.projectJsonFileName);
+			throw new FileNotFoundException("File not found: " + SiteDataController.projectJsonFileName);
 		}
 		
 		stream = new FileInputStream(projFile);
