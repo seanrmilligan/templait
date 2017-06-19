@@ -33,27 +33,38 @@ public class SiteDataController {
 	public Site loadSite(Stage primaryStage) throws NullPointerException, FileNotFoundException, IOException {
 		Site site = null;
 		DirectoryChooser chooser = new DirectoryChooser();
-		File projDir = null, sbDir = null, projFile = null;
+		File homeDir = null, projDir = null, sbDir = null, projFile = null;
 		FileInputStream stream;
 		JSONObject project;
-		
+
+		// get the logged in user's home directory
+		homeDir = new File(System.getProperty("user.home"));
+
+		// set the initial directory as the logged in user's home directory
+		chooser.setInitialDirectory(homeDir);
+
+		// let the user traverse directories and select the directory that contains the project
 		projDir = chooser.showDialog(primaryStage);
-		
+
+		// do not proceed if the user X'd out of the dialog
 		if (projDir == null) {
 			throw new NullPointerException("No directory selected.");
 		}
-		
+
+		// search through the directory the user choose to see if the site builder settings directory is inside
 		for (File item : projDir.listFiles()) {
 			if (item.isDirectory() && item.getName().equals(SiteDataController.projectDirName)) {
 				sbDir = item;
 				break;
 			}
 		}
-		
+
+		// no site builder settings directory was found; this is not a site builder managed project
 		if (sbDir == null) {
 			throw new FileNotFoundException("Site Builder .sb directory not found.");
 		}
-		
+
+		// get the project json file from in the site builder settings dir
 		for (File item : sbDir.listFiles()) {
 			if (item.isFile() && item.getName().equals(SiteDataController.projectJsonFileName)) {
 				projFile = item;
@@ -91,4 +102,6 @@ public class SiteDataController {
 		
 		return false;
 	}
+
+
 }

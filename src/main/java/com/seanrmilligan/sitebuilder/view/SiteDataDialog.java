@@ -8,6 +8,9 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import static com.seanrmilligan.sitebuilder.view.Constants.MIN_HEIGHT;
+import static com.seanrmilligan.sitebuilder.view.Constants.MIN_WIDTH;
+
 /**
  * Created by sean on 6/5/17.
  */
@@ -38,6 +41,8 @@ public class SiteDataDialog extends Stage {
         this.pane.setHgap(5);
         this.pane.setVgap(5);
 
+        this.pane.setMinWidth(MIN_WIDTH);
+        this.pane.setMinHeight(MIN_HEIGHT);
         this.scene = new Scene(this.pane);
         this.setScene(this.scene);
     }
@@ -52,5 +57,7 @@ public class SiteDataDialog extends Stage {
     public String getSiteName() {
         return this.siteName.getText();
     }
+    public void setSiteName(String name) { this.siteName.setText(name); }
     public String getSiteDomain() { return this.siteDomain.getText(); }
+    public void setSiteDomain(String domain) { this.siteDomain.setText(domain); }
 }
