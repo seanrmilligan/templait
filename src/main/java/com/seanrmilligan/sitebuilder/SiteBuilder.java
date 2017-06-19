@@ -25,6 +25,8 @@ public class SiteBuilder extends Application {
 
 		if (site != null) {
 			this.gui = new SiteBuilderWindow(primaryStage);
+			this.gui.setSiteName(site.getName());
+			this.gui.setSiteDomain(site.getDomain());
 			this.gui.init("Site Builder");
 		}
 	}
