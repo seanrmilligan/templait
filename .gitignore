@@ -4,6 +4,5 @@ sites/
 .settings/
 .idea/
 data/
-pom.xml
 *.iml
 target/
