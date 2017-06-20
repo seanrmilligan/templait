@@ -1,6 +1,7 @@
 package com.seanrmilligan.sitebuilder.view;
 
 import com.seanrmilligan.sitebuilder.model.SiteBuilderView;
+import org.controlsfx.control.BreadCrumbBar;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -15,14 +16,14 @@ public class SiteBuilderWindow implements SiteBuilderView {
     Stage primaryStage;
     Scene scene;
     BorderPane pane;
-    GridPane body;
     MenuBar menus;
     Menu fileMenu;
 	MenuItem newSiteMenuItem;
     MenuItem openSiteMenuItem;
     MenuItem closeSiteMenuItem;
     MenuItem quitProgMenuItem;
-
+	BorderPane body;
+	BreadCrumbBar breadcrumb;
     Label siteNameLabel;
     Label siteName;
     Label siteDomainLabel;
@@ -31,7 +32,7 @@ public class SiteBuilderWindow implements SiteBuilderView {
     public SiteBuilderWindow (Stage primaryStage){
         this.primaryStage = primaryStage;
         this.pane = new BorderPane();
-        this.body = new GridPane();
+        this.body = new BorderPane();
 
         this.menus = new MenuBar();
         this.fileMenu = new Menu("_File");
@@ -62,13 +63,9 @@ public class SiteBuilderWindow implements SiteBuilderView {
         this.siteDomainLabel = new Label ("Site Domain: ");
         this.siteDomain = new Label("");
 
-        this.body.add(this.siteNameLabel, 0, 0);
-        this.body.add(this.siteName, 1, 0);
-        this.body.add(this.siteDomainLabel, 2, 0);
-        this.body.add(this.siteDomain, 3, 0);
+        this.breadcrumb = new BreadCrumbBar();
+        this.body.setTop(this.breadcrumb);
 		this.body.setPadding(new Insets(10));
-		this.body.setHgap(5);
-		this.body.setVgap(5);
 
 		this.pane.setCenter(this.body);
 
