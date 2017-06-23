@@ -38,7 +38,7 @@ public class SiteDataController {
 		return site;
 	}
 	
-	public Site loadSite(Stage primaryStage) throws NullPointerException, FileNotFoundException, IOException {
+	public Site loadSite(Stage primaryStage) throws NullPointerException, FileNotFoundException {
 		Site site = null;
 		DirectoryChooser chooser = new DirectoryChooser();
 		File homeDir = null, projDir = null, sbDir = null, projFile = null;
