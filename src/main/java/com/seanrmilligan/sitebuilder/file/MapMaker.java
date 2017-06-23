@@ -20,8 +20,9 @@ public class MapMaker {
 		String jsonText = IOUtils.toString(stream, "UTF-8");
 		JSONObject jsonObject = new JSONObject(jsonText);
 		Iterator<String> keyIter = jsonObject.keys();
-
-		for(String key = keyIter.next(); keyIter.hasNext(); key = keyIter.next()) {
+		
+		while (keyIter.hasNext()) {
+			String key = keyIter.next();
 			map.put(key, jsonObject.getString(key));
 		}
 
