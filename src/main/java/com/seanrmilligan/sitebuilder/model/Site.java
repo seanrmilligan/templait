@@ -24,6 +24,7 @@ public class Site {
 		this.schema = schema;
 		this.domain = domain;
 		this.port = port;
+		this.subdomains = new HashSet<>();
 	}
 
     public void setName(String name) { this.name = name; }
