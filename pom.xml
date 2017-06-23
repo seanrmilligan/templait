@@ -7,6 +7,23 @@
     <version>0.0.1</version>
     <name>Site Builder</name>
     <url>http://maven.apache.org</url>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<build>
+		<finalName>site-builder</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+				<version>3.6.1</version>
+			</plugin>
+		</plugins>
+	</build>
     <dependencies>
         <dependency>
             <groupId>org.json</groupId>
@@ -36,18 +53,4 @@
 			<scope>test</scope>
 		</dependency>
     </dependencies>
-    <build>
-        <finalName>site-builder</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-				<version>3.6.1</version>
-            </plugin>
-        </plugins>
-    </build>
 </project>
