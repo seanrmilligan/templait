@@ -1,6 +1,8 @@
 package com.seanrmilligan.sitebuilder.view;
 
 import com.seanrmilligan.sitebuilder.model.SiteBuilderView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import org.controlsfx.control.BreadCrumbBar;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -22,8 +24,11 @@ public class SiteBuilderWindow implements SiteBuilderView {
     MenuItem openSiteMenuItem;
     MenuItem closeSiteMenuItem;
     MenuItem quitProgMenuItem;
+    Menu editMenu;
+    MenuItem editSiteMenuItem;
 	BorderPane body;
 	BreadCrumbBar breadcrumb;
+	HBox infoBar;
     Label siteNameLabel;
     Label siteName;
     Label siteDomainLabel;
@@ -32,7 +37,6 @@ public class SiteBuilderWindow implements SiteBuilderView {
     public SiteBuilderWindow (Stage primaryStage){
         this.primaryStage = primaryStage;
         this.pane = new BorderPane();
-        this.body = new BorderPane();
 
         this.menus = new MenuBar();
         this.fileMenu = new Menu("_File");
@@ -53,18 +57,40 @@ public class SiteBuilderWindow implements SiteBuilderView {
 			this.closeSiteMenuItem,
 			this.quitProgMenuItem
 		);
+        
+        this.editMenu = new Menu("_Edit");
+        this.editMenu.setMnemonicParsing(true);
+        
+        this.editSiteMenuItem = new MenuItem("S_ite");
+        this.editSiteMenuItem.setMnemonicParsing(true);
+        
+        this.editMenu.getItems().addAll(
+        	this.editSiteMenuItem
+		);
 
-        this.menus.getMenus().add(this.fileMenu);
+        this.menus.getMenus().addAll(
+        	this.fileMenu,
+			this.editMenu
+		);
 
         this.pane.setTop(this.menus);
-
+		
+		this.body = new BorderPane();
+		this.infoBar = new HBox();
+        
         this.siteNameLabel = new Label("Site Name: ");
         this.siteName = new Label("");
         this.siteDomainLabel = new Label ("Site Domain: ");
         this.siteDomain = new Label("");
-
-        this.breadcrumb = new BreadCrumbBar();
-        this.body.setTop(this.breadcrumb);
+		
+        this.infoBar.getChildren().addAll(
+        	this.siteNameLabel,
+			this.siteName,
+			this.siteDomainLabel,
+			this.siteDomain
+		);
+        
+        this.body.setTop(this.infoBar);
 		this.body.setPadding(new Insets(10));
 
 		this.pane.setCenter(this.body);
