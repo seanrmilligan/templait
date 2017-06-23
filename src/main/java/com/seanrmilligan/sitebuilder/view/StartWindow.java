@@ -61,8 +61,13 @@ public class StartWindow extends Stage {
         this.setScene(this.scene);
     }
     
-    public void init (String title) {
+    public void setTitleBar (String title) {
     	this.setTitle(title);
+	}
+	
+	public void setButtonText (String newSiteButtonText, String loadSiteButtonText) {
+    	this.newButton.setText(newSiteButtonText);
+    	this.loadButton.setText(loadSiteButtonText);
 	}
 
     public Action getAction() {
