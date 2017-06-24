@@ -15,11 +15,11 @@ import org.json.JSONTokener;
 /**
  * Created by sean on 6/6/17.
  */
-public class SiteDataController {
+public class SiteManager {
 	private static final String projectDirName = ".sb";
 	private static final String projectJsonFileName = "project.json";
 	
-	public Site newSite(Stage primaryStage) {
+	public static Site newSite(Stage primaryStage) {
 		Site site;
 		SiteDataDialog dialog = new SiteDataDialog(primaryStage);
 
@@ -38,7 +38,7 @@ public class SiteDataController {
 		return site;
 	}
 	
-	public Site loadSite(Stage primaryStage) throws NullPointerException, FileNotFoundException {
+	public static Site loadSite(Stage primaryStage) throws NullPointerException, FileNotFoundException {
 		Site site = null;
 		DirectoryChooser chooser = new DirectoryChooser();
 		File homeDir = null, projDir = null, sbDir = null, projFile = null;
@@ -61,27 +61,27 @@ public class SiteDataController {
 
 		// search through the directory the user choose to see if the site builder settings directory is inside
 		for (File item : projDir.listFiles()) {
-			if (item.isDirectory() && item.getName().equals(SiteDataController.projectDirName)) {
+			if (item.isDirectory() && item.getName().equals(SiteManager.projectDirName)) {
 				sbDir = item;
 				break;
 			}
 		}
 
-		// no site builder settings directory was found; this is not a site builder managed project
+		// no site builder settings directory found; this is not a site builder managed project
 		if (sbDir == null) {
 			throw new FileNotFoundException("Site Builder .sb directory not found.");
 		}
 
 		// get the project json file from in the site builder settings dir
 		for (File item : sbDir.listFiles()) {
-			if (item.isFile() && item.getName().equals(SiteDataController.projectJsonFileName)) {
+			if (item.isFile() && item.getName().equals(SiteManager.projectJsonFileName)) {
 				projFile = item;
 				break;
 			}
 		}
 		
 		if (projFile == null) {
-			throw new FileNotFoundException("File not found: " + SiteDataController.projectJsonFileName);
+			throw new FileNotFoundException("File not found: " + SiteManager.projectJsonFileName);
 		}
 		
 		stream = new FileInputStream(projFile);

@@ -1,6 +1,6 @@
 package com.seanrmilligan.sitebuilder;
 
-import com.seanrmilligan.sitebuilder.controller.SiteDataController;
+import com.seanrmilligan.sitebuilder.controller.SiteManager;
 import com.seanrmilligan.sitebuilder.model.Site;
 import com.seanrmilligan.sitebuilder.view.SiteBuilderWindow;
 
@@ -31,15 +31,13 @@ public class SiteBuilder extends Application {
 		launcherView.showAndWait();
 		Action action = launcherView.getAction();
 		
-		SiteDataController siteDataController = new SiteDataController();
-		
 		switch (action) {
 			case NEW:
-				site = siteDataController.newSite(primaryStage);
+				site = SiteManager.newSite(primaryStage);
 				break;
 			case LOAD:
 				try {
-					site = siteDataController.loadSite(primaryStage);
+					site = SiteManager.loadSite(primaryStage);
 				} catch (Exception e) {
 					System.out.println(e.toString());
 					System.out.println(e.getMessage());
