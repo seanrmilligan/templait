@@ -1,18 +1,17 @@
 package com.seanrmilligan.sitebuilder.view;
 
 import com.seanrmilligan.sitebuilder.model.SiteBuilderView;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.controlsfx.control.BreadCrumbBar;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+
+import java.io.File;
 
 public class SiteBuilderWindow implements SiteBuilderView {
     Stage primaryStage;
@@ -27,12 +26,12 @@ public class SiteBuilderWindow implements SiteBuilderView {
     Menu editMenu;
     MenuItem editSiteMenuItem;
 	BorderPane body;
-	BreadCrumbBar breadcrumb;
 	HBox infoBar;
     Label siteNameLabel;
     Label siteName;
     Label siteDomainLabel;
     Label siteDomain;
+    TreeView<File> directoryTree;
 
     public SiteBuilderWindow (Stage primaryStage){
         this.primaryStage = primaryStage;
@@ -91,6 +90,11 @@ public class SiteBuilderWindow implements SiteBuilderView {
 		);
         
         this.body.setTop(this.infoBar);
+        
+        this.directoryTree = new TreeView<>();
+        
+        this.body.setLeft(this.directoryTree);
+        
 		this.body.setPadding(new Insets(10));
 
 		this.pane.setCenter(this.body);
@@ -111,6 +115,8 @@ public class SiteBuilderWindow implements SiteBuilderView {
     public void setSiteDomain(String domain) {
 		this.siteDomain.setText(domain);
     }
+    
+    public void setDirectoryTree(TreeItem<File> tree) { this.directoryTree.setRoot(tree); }
 
     public String getText() {
         return null;
