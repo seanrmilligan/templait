@@ -22,6 +22,7 @@ import static com.seanrmilligan.utils.Action.NEW;
 
 public class SiteBuilder extends Application {
 	SiteBuilderWindow gui;
+	File homeDir, projDir;
 
 	/**
 	 * @param primaryStage This application's window.
@@ -38,7 +39,6 @@ public class SiteBuilder extends Application {
 		
 		if (action == NEW || action == LOAD) {
 			DirectoryChooser chooser = new DirectoryChooser();
-			File homeDir, projDir;
 			homeDir = new File(System.getProperty("user.home"));
 			chooser.setInitialDirectory(homeDir);
 			projDir = chooser.showDialog(primaryStage);
@@ -60,11 +60,21 @@ public class SiteBuilder extends Application {
 				this.gui.setSiteName(site.getName());
 				this.gui.setSiteDomain(site.getDomain());
 				this.gui.setDirectoryTree(DirectoryManager.getTree(projDir));
-				//this.gui.setDirectoryTreePathTruncation(homeDir.getAbsolutePath(), "~");
-				this.gui.setDirectoryTreePathTruncation(projDir.getAbsolutePath(), projDir.getName());
 				this.gui.init(APPLICATION_NAME);
 			}
 		}
+	}
+	
+	public void setPathsRelativeToHome() {
+		this.gui.setDirectoryTreePathTruncation(this.homeDir.getAbsolutePath(), "~");
+	}
+	
+	public void setPathsRelativeToProject() {
+		this.gui.setDirectoryTreePathTruncation(projDir.getAbsolutePath(), projDir.getName());
+	}
+	
+	public void setPathsToFileName() {
+	
 	}
 	
 	public static void main(String[] args) {

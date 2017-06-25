@@ -16,6 +16,8 @@ import org.fxmisc.richtext.LineNumberFactory;
 import java.io.File;
 import java.util.HashMap;
 
+import static com.seanrmilligan.sitebuilder.view.Strings.APPLICATION_NAME;
+
 public class SiteBuilderWindow implements SiteView, FileView {
 	Stage primaryStage;
 	Scene scene;
@@ -124,6 +126,7 @@ public class SiteBuilderWindow implements SiteView, FileView {
 
 	public void setSiteName(String name) {
 		this.siteName.setText(name);
+		this.primaryStage.setTitle(APPLICATION_NAME + " | " + name);
 	}
 
 	public void setSiteDomain(String domain) {
@@ -148,12 +151,24 @@ public class SiteBuilderWindow implements SiteView, FileView {
 					if (empty) {
 						setText(null);
 					} else {
-						if (!SiteBuilderWindow.this.pathPrefix.isEmpty() &&
-							getItem().getAbsolutePath().startsWith(SiteBuilderWindow.this.pathPrefix)) {
-							setText(getItem().getAbsolutePath().replaceFirst(
-								SiteBuilderWindow.this.pathPrefix,
-								SiteBuilderWindow.this.pathReplacement
-							));
+						if (SiteBuilderWindow.this.pathPrefix.isEmpty()) {
+							// default to just showing the name
+							setText(getItem().getName());
+						} else if (SiteBuilderWindow.this.pathPrefix.equals("/")) {
+							// show absolute path
+							setText(getItem().getAbsolutePath());
+						} else {
+							// do some other truncations such as
+							// /home/dir --> ~/
+							// /path/to/proj --> proj/
+							String absPath = getItem().getAbsolutePath();
+							
+							if (absPath.startsWith(SiteBuilderWindow.this.pathPrefix)) {
+								setText(absPath.replaceFirst(
+									SiteBuilderWindow.this.pathPrefix,
+									SiteBuilderWindow.this.pathReplacement
+								));
+							}
 						}
 					}
 				}
@@ -162,6 +177,7 @@ public class SiteBuilderWindow implements SiteView, FileView {
 			cell.setOnMouseClicked(event -> {
 				if(event.getButton().equals(MouseButton.PRIMARY)){
 					if(event.getClickCount() >= 2 && !cell.isEmpty()){
+						System.out.println(cell.getItem().toString());
 						FileManager.open(SiteBuilderWindow.this, cell.getTreeItem().getValue());
 					}
 				}
