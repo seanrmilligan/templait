@@ -60,13 +60,13 @@ public class SiteBuilder extends Application {
 				this.gui.setSiteName(site.getName());
 				this.gui.setSiteDomain(site.getDomain());
 				this.gui.setDirectoryTree(DirectoryManager.getTree(projDir));
+				//this.gui.setDirectoryTreePathTruncation(homeDir.getAbsolutePath(), "~");
+				this.gui.setDirectoryTreePathTruncation(projDir.getAbsolutePath(), projDir.getName());
 				this.gui.init(APPLICATION_NAME);
 			}
 		}
 	}
 	
-	
-
 	public static void main(String[] args) {
 		Locale.setDefault(Locale.US);
 		launch(args);
