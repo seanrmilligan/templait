@@ -1,8 +1,7 @@
 package com.seanrmilligan.sitebuilder.controller;
 
 import com.seanrmilligan.sitebuilder.model.Site;
-import com.seanrmilligan.sitebuilder.view.SiteDataDialog;
-import javafx.stage.DirectoryChooser;
+import com.seanrmilligan.sitebuilder.view.gui.SiteDataDialog;
 import javafx.stage.Stage;
 
 import java.io.*;

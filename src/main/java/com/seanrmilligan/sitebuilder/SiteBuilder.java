@@ -3,12 +3,12 @@ package com.seanrmilligan.sitebuilder;
 import com.seanrmilligan.sitebuilder.controller.DirectoryManager;
 import com.seanrmilligan.sitebuilder.controller.SiteManager;
 import com.seanrmilligan.sitebuilder.model.Site;
-import com.seanrmilligan.sitebuilder.view.SiteBuilderWindow;
+import com.seanrmilligan.sitebuilder.view.gui.SiteBuilderWindow;
 
 import java.io.File;
 import java.util.Locale;
 
-import com.seanrmilligan.sitebuilder.view.StartWindow;
+import com.seanrmilligan.sitebuilder.view.gui.StartWindow;
 import com.seanrmilligan.utils.Action;
 import javafx.application.Application;
 import javafx.stage.DirectoryChooser;

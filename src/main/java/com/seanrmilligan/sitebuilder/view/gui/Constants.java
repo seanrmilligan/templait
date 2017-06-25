@@ -1,4 +1,4 @@
-package com.seanrmilligan.sitebuilder.view;
+package com.seanrmilligan.sitebuilder.view.gui;
 
 /**
  * Created by sean on 6/19/17.

@@ -1,4 +1,4 @@
-package com.seanrmilligan.sitebuilder.view;
+package com.seanrmilligan.sitebuilder.view.gui;
 
 import com.seanrmilligan.javafx.scene.control.IntegerField;
 import javafx.geometry.Insets;
@@ -13,8 +13,8 @@ import javafx.stage.Stage;
 
 import java.util.List;
 
-import static com.seanrmilligan.sitebuilder.view.Constants.MIN_HEIGHT;
-import static com.seanrmilligan.sitebuilder.view.Constants.MIN_WIDTH;
+import static com.seanrmilligan.sitebuilder.view.gui.Constants.MIN_HEIGHT;
+import static com.seanrmilligan.sitebuilder.view.gui.Constants.MIN_WIDTH;
 
 /**
  * Created by sean on 6/5/17.

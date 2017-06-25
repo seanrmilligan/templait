@@ -1,6 +1,8 @@
-package com.seanrmilligan.sitebuilder.view;
+package com.seanrmilligan.sitebuilder.view.gui;
 
-import com.seanrmilligan.sitebuilder.model.SiteBuilderView;
+import com.seanrmilligan.sitebuilder.controller.FileManager;
+import com.seanrmilligan.sitebuilder.view.FileView;
+import com.seanrmilligan.sitebuilder.view.SiteView;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
@@ -12,8 +14,9 @@ import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 
 import java.io.File;
+import java.util.HashMap;
 
-public class SiteBuilderWindow implements SiteBuilderView {
+public class SiteBuilderWindow implements SiteView, FileView {
 	Stage primaryStage;
 	Scene scene;
 	BorderPane pane;
@@ -34,7 +37,8 @@ public class SiteBuilderWindow implements SiteBuilderView {
 	TreeView<File> directoryTree;
 	String pathPrefix;
 	String pathReplacement;
-	CodeArea editor;
+	TabPane editorTabs;
+	HashMap<File, Tab> openFiles;
 	
 	public SiteBuilderWindow (Stage primaryStage){
 		this.primaryStage = primaryStage;
@@ -100,10 +104,10 @@ public class SiteBuilderWindow implements SiteBuilderView {
 		
 		this.body.setLeft(this.directoryTree);
 		
-		this.editor = new CodeArea();
-		this.editor.setParagraphGraphicFactory(LineNumberFactory.get(this.editor));
+		this.editorTabs = new TabPane();
+		this.openFiles = new HashMap<>();
 		
-		this.body.setCenter(this.editor);
+		this.body.setCenter(this.editorTabs);
 		
 		this.body.setPadding(new Insets(10));
 
@@ -158,19 +162,23 @@ public class SiteBuilderWindow implements SiteBuilderView {
 			cell.setOnMouseClicked(event -> {
 				if(event.getButton().equals(MouseButton.PRIMARY)){
 					if(event.getClickCount() >= 2 && !cell.isEmpty()){
-						TreeItem<File> treeItem = cell.getTreeItem();
-						System.out.println(treeItem.toString());
+						FileManager.open(SiteBuilderWindow.this, cell.getTreeItem().getValue());
 					}
 				}
 			});
-			
-			
 			
 			return cell ;
 		});
 	}
 
-	public String getText() {
-		return null;
+	public void addFile(File file, String text) {
+		Tab newTab = new Tab();
+		CodeArea editor = new CodeArea();
+		editor.setParagraphGraphicFactory(LineNumberFactory.get(editor));
+		editor.replaceText(0,0,text);
+		newTab.setText(file.getName());
+		newTab.setContent(editor);
+		this.openFiles.put(file, newTab);
+		this.editorTabs.getTabs().add(newTab);
 	}
 }

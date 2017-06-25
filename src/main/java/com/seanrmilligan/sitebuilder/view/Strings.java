@@ -5,7 +5,10 @@ package com.seanrmilligan.sitebuilder.view;
  */
 public class Strings {
 	public static final String APPLICATION_NAME = "Site Builder";
+	
 	public static final String NEW_SITE_BUTTON_TEXT = "New Site";
 	public static final String LOAD_SITE_BUTTON_TEXT = "Load Site";
 	
+	public static final String SITE_NAME_LABEL_TEXT = "Name:";
+	public static final String SITE_DOMAIN_LABEL_TEXT = "Domain:";
 }
