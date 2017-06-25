@@ -43,10 +43,9 @@ public class SiteManager {
 		File sbDir = null, projFile = null;
 		FileInputStream stream;
 		JSONObject project;
-
-		// do not proceed if the user X'd out of the dialog
+		
 		if (projDir == null) {
-			throw new NullPointerException("No directory selected.");
+			throw new NullPointerException("Project directory is null.");
 		}
 
 		// search through the directory the user choose to see if the site builder settings directory is inside
@@ -59,7 +58,7 @@ public class SiteManager {
 
 		// no site builder settings directory found; this is not a site builder managed project
 		if (sbDir == null) {
-			throw new FileNotFoundException("Site Builder .sb directory not found.");
+			throw new FileNotFoundException("Site Builder directory not found: " + SiteManager.PROJECT_DIRECTORY);
 		}
 
 		// get the project json file from in the site builder settings dir
