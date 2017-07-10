@@ -1,13 +1,16 @@
 package com.seanrmilligan.sitebuilder;
 
 import com.seanrmilligan.sitebuilder.controller.DirectoryManager;
+import com.seanrmilligan.sitebuilder.controller.FileManager;
 import com.seanrmilligan.sitebuilder.controller.SiteManager;
 import com.seanrmilligan.sitebuilder.model.Site;
 import com.seanrmilligan.sitebuilder.view.gui.SiteBuilderWindow;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Locale;
 
+import com.seanrmilligan.sitebuilder.view.gui.SiteDataDialog;
 import com.seanrmilligan.sitebuilder.view.gui.StartWindow;
 import com.seanrmilligan.utils.Action;
 import javafx.application.Application;
@@ -21,15 +24,18 @@ import static com.seanrmilligan.utils.Action.LOAD;
 import static com.seanrmilligan.utils.Action.NEW;
 
 public class SiteBuilder extends Application {
+	Site site;
 	SiteBuilderWindow gui;
 	File homeDir, projDir;
+	
+	FileManager files;
 
 	/**
 	 * @param primaryStage This application's window.
 	 */
 	@Override
 	public void start(Stage primaryStage) {
-		Site site = null;
+		this.site = null;
 		
 		StartWindow launcherView = new StartWindow(primaryStage);
 		launcherView.setTitleBar(APPLICATION_NAME);
@@ -39,15 +45,35 @@ public class SiteBuilder extends Application {
 		
 		if (action == NEW || action == LOAD) {
 			DirectoryChooser chooser = new DirectoryChooser();
-			homeDir = new File(System.getProperty("user.home"));
-			chooser.setInitialDirectory(homeDir);
-			projDir = chooser.showDialog(primaryStage);
+			this.homeDir = new File(System.getProperty("user.home"));
+			chooser.setInitialDirectory(this.homeDir);
+			this.projDir = chooser.showDialog(primaryStage);
 			
 			if (action == NEW) {
-				site = SiteManager.newSite(primaryStage);
+				SiteDataDialog dialog = new SiteDataDialog(primaryStage);
+				
+				ArrayList<String> schemaList = new ArrayList<>();
+				schemaList.add("http");
+				schemaList.add("https");
+				
+				dialog.setSchemaList(schemaList);
+				dialog.setSchema("http");
+				dialog.setPort(80);
+				dialog.init("Create a Site", "Create");
+				dialog.showAndWait();
+				
+				this.site = new Site(dialog.getSiteName(), dialog.getSiteDomain());
+				
+				try {
+					SiteManager.newSite(this.projDir, this.site);
+				} catch (Exception e) {
+					System.out.println(projDir.toString());
+					System.out.println(e.toString());
+					System.out.println(e.getMessage());
+				}
 			} else {
 				try {
-					site = SiteManager.loadSite(projDir);
+					this.site = SiteManager.loadSite(this.projDir);
 				} catch (Exception e) {
 					System.out.println(projDir.toString());
 					System.out.println(e.toString());
@@ -56,11 +82,15 @@ public class SiteBuilder extends Application {
 			}
 			
 			if (site != null) {
+				this.files = new FileManager();
+				
 				this.gui = new SiteBuilderWindow(primaryStage);
+				this.gui.setTitleBar(APPLICATION_NAME + " | " + site.getName());
 				this.gui.setSiteName(site.getName());
 				this.gui.setSiteDomain(site.getDomain());
 				this.gui.setDirectoryTree(DirectoryManager.getTree(projDir));
-				this.gui.init(APPLICATION_NAME);
+				this.gui.setFileManager(this.files);
+				this.gui.show();
 			}
 		}
 	}
@@ -74,9 +104,12 @@ public class SiteBuilder extends Application {
 	}
 	
 	public void setPathsToFileName() {
-	
+		this.gui.setDirectoryTreePathTruncation("","");
 	}
 	
+	public void setPathsToAbsolute() {
+		this.gui.setDirectoryTreePathTruncation("/","");
+	}
 	public static void main(String[] args) {
 		Locale.setDefault(Locale.US);
 		launch(args);
