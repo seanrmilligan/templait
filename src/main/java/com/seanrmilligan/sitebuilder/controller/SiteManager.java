@@ -22,55 +22,27 @@ public class SiteManager {
 	private static final String JSON_KEY_SITE_SUBDOMAINS = "subdomains";
 	
 	public static void newSite(File projDir, Site site) throws NullPointerException, NotDirectoryException, FileAlreadyExistsException, FileNotFoundException, IOException {
-		File sbDir, projFile;
-		String projPath, sbPath;
-		FileOutputStream stream;
-		JSONObject project;
-		JSONArray subdomains;
+		File sbDir;
 		
 		if (projDir == null) {
 			throw new NullPointerException("Project directory is null.");
 		}
 		
-		projPath = projDir.getAbsolutePath();
-		
 		if (!projDir.isDirectory()) {
-			throw new NotDirectoryException("Path is not a directory: " + projPath);
+			throw new NotDirectoryException("Path is not a directory: " + projDir.getAbsolutePath());
 		}
 		
-		if (projPath.endsWith(File.separator)) {
-			sbDir = new File(projPath + SiteManager.PROJECT_DIRECTORY);
-		} else {
-			sbDir = new File(projPath + File.separator + SiteManager.PROJECT_DIRECTORY);
-		}
-		
-		sbPath = sbDir.getAbsolutePath();
+		sbDir = getSBDir(projDir);
 		
 		if (sbDir.exists()) {
-			throw new FileAlreadyExistsException("Site Builder directory found: " + sbPath);
+			throw new FileAlreadyExistsException("Site Builder directory found: " + sbDir.getAbsolutePath());
 		}
 		
 		if (!sbDir.mkdir()) {
-			throw new FileNotFoundException("Site Builder directory not made: " + sbPath);
+			throw new FileNotFoundException("Site Builder directory not made: " + sbDir.getAbsolutePath());
 		}
 		
-		projFile = new File(sbPath + File.separator + SiteManager.PROJECT_DATA);
-		stream = new FileOutputStream(projFile);
-		project = new JSONObject();
-		subdomains = new JSONArray();
-		
-		project.put(JSON_KEY_SITE_NAME, site.getName());
-		project.put(JSON_KEY_SITE_DOMAIN, site.getDomain());
-		
-		for (String subdomain : site.getSubdomains()) {
-			subdomains.put(subdomain);
-		}
-		
-		project.put(JSON_KEY_SITE_SUBDOMAINS, subdomains);
-		
-		stream.write(project.toString().getBytes());
-		
-		stream.close();
+		saveSite(projDir, site);
 	}
 	
 	public static Site loadSite(File projDir) throws NullPointerException, FileNotFoundException, IOException {
@@ -127,7 +99,51 @@ public class SiteManager {
 		return site;
 	}
 	
-	public static void saveSite(File projDir, Site site) {
+	public static void saveSite(File projDir, Site site) throws FileNotFoundException, IOException {
+		File projFile;
+		FileOutputStream stream;
+		JSONObject project = new JSONObject();
+		JSONArray subdomains = new JSONArray();
+		
+		projFile = getProjFile(projDir);
+		
+		stream = new FileOutputStream(projFile);
+		
+		project.put(JSON_KEY_SITE_NAME, site.getName());
+		project.put(JSON_KEY_SITE_DOMAIN, site.getDomain());
+		
+		for (String subdomain : site.getSubdomains()) {
+			subdomains.put(subdomain);
+		}
+		
+		project.put(JSON_KEY_SITE_SUBDOMAINS, subdomains);
+		
+		stream.write(project.toString().getBytes());
+	}
 	
+	private static File getSBDir(File projDir) {
+		File sbDir;
+		String projPath = projDir.getAbsolutePath();
+		
+		if (projPath.endsWith(File.separator)) {
+			sbDir = new File(projPath + SiteManager.PROJECT_DIRECTORY);
+		} else {
+			sbDir = new File(projPath + File.separator + SiteManager.PROJECT_DIRECTORY);
+		}
+		
+		return sbDir;
+	}
+	
+	private static File getProjFile(File projDir) {
+		File projFile;
+		String sbPath = getSBDir(projDir).getAbsolutePath();
+		
+		if (sbPath.endsWith(File.separator)) {
+			projFile = new File(sbPath + SiteManager.PROJECT_DATA);
+		} else {
+			projFile = new File(sbPath + File.separator + SiteManager.PROJECT_DATA);
+		}
+		
+		return projFile;
 	}
 }

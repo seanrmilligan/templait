@@ -1,9 +1,12 @@
 package com.seanrmilligan.sitebuilder.view.gui;
 
 import com.seanrmilligan.sitebuilder.controller.FileManager;
-import com.seanrmilligan.sitebuilder.view.FileView;
+import com.seanrmilligan.sitebuilder.view.MultiFileView;
 import com.seanrmilligan.sitebuilder.view.SiteView;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.geometry.Insets;
@@ -14,11 +17,14 @@ import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 
 import java.io.File;
-import java.util.HashMap;
 
 import static com.seanrmilligan.sitebuilder.view.Strings.APPLICATION_NAME;
+import static com.seanrmilligan.sitebuilder.view.Strings.SITE_DOMAIN_LABEL_TEXT;
+import static com.seanrmilligan.sitebuilder.view.Strings.SITE_NAME_LABEL_TEXT;
 
-public class SiteBuilderWindow implements SiteView, FileView {
+public class SiteBuilderWindow implements SiteView, MultiFileView {
+	FileManager files;
+	
 	Stage primaryStage;
 	Scene scene;
 	BorderPane pane;
@@ -40,7 +46,6 @@ public class SiteBuilderWindow implements SiteView, FileView {
 	String pathPrefix;
 	String pathReplacement;
 	TabPane editorTabs;
-	HashMap<File, Tab> openFiles;
 	
 	public SiteBuilderWindow (Stage primaryStage){
 		this.primaryStage = primaryStage;
@@ -86,9 +91,9 @@ public class SiteBuilderWindow implements SiteView, FileView {
 		this.body = new BorderPane();
 		this.infoBar = new HBox();
 		
-		this.siteNameLabel = new Label("Site Name: ");
+		this.siteNameLabel = new Label(SITE_NAME_LABEL_TEXT);
 		this.siteName = new Label("");
-		this.siteDomainLabel = new Label ("Site Domain: ");
+		this.siteDomainLabel = new Label (SITE_DOMAIN_LABEL_TEXT);
 		this.siteDomain = new Label("");
 		
 		this.infoBar.getChildren().addAll(
@@ -107,7 +112,6 @@ public class SiteBuilderWindow implements SiteView, FileView {
 		this.body.setLeft(this.directoryTree);
 		
 		this.editorTabs = new TabPane();
-		this.openFiles = new HashMap<>();
 		
 		this.body.setCenter(this.editorTabs);
 		
@@ -118,16 +122,12 @@ public class SiteBuilderWindow implements SiteView, FileView {
 		this.scene = new Scene(this.pane);
 		this.primaryStage.setScene(this.scene);
 	}
-
-	public void init(String windowTitle) {
-		this.primaryStage.setTitle(windowTitle);
-		this.primaryStage.show();
+	
+	public void setFileManager(FileManager manager) {
+		this.files = manager;
 	}
 
-	public void setSiteName(String name) {
-		this.siteName.setText(name);
-		this.primaryStage.setTitle(APPLICATION_NAME + " | " + name);
-	}
+	public void setSiteName(String name) { this.siteName.setText(name); }
 
 	public void setSiteDomain(String domain) {
 		this.siteDomain.setText(domain);
@@ -140,6 +140,10 @@ public class SiteBuilderWindow implements SiteView, FileView {
 		this.pathReplacement = replacement;
 		this.updateCellFactory();
 	}
+	
+	public void setTitleBar (String title) { this.primaryStage.setTitle(title); }
+	
+	public void show() { this.primaryStage.show(); }
 	
 	private void updateCellFactory() {
 		this.directoryTree.setCellFactory(tree -> {
@@ -177,8 +181,7 @@ public class SiteBuilderWindow implements SiteView, FileView {
 			cell.setOnMouseClicked(event -> {
 				if(event.getButton().equals(MouseButton.PRIMARY)){
 					if(event.getClickCount() >= 2 && !cell.isEmpty()){
-						System.out.println(cell.getItem().toString());
-						FileManager.open(SiteBuilderWindow.this, cell.getTreeItem().getValue());
+						this.files.open(this, cell.getTreeItem().getValue());
 					}
 				}
 			});
@@ -187,14 +190,22 @@ public class SiteBuilderWindow implements SiteView, FileView {
 		});
 	}
 
-	public void addFile(File file, String text) {
+	public void addFile(String title, String text) {
 		Tab newTab = new Tab();
 		CodeArea editor = new CodeArea();
 		editor.setParagraphGraphicFactory(LineNumberFactory.get(editor));
 		editor.replaceText(0,0,text);
-		newTab.setText(file.getName());
+		editor.textProperty().addListener((observable, oldVal, newVal) -> {
+			System.out.println("Changed");
+		});
+		editor.setOnKeyPressed(event -> {
+			KeyCodeCombination save = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN);
+			if (save.match(event)) {
+				System.out.println("Save");
+			}
+		});
+		newTab.setText(title);
 		newTab.setContent(editor);
-		this.openFiles.put(file, newTab);
 		this.editorTabs.getTabs().add(newTab);
 	}
 }
