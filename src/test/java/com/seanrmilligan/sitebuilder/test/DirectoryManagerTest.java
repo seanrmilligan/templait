@@ -1,11 +1,14 @@
 package com.seanrmilligan.sitebuilder.test;
 
 import com.seanrmilligan.sitebuilder.controller.DirectoryManager;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 import org.junit.Test;
 
 import java.io.File;
+import java.util.HashSet;
+import java.util.Observable;
 
 import static org.junit.Assert.assertEquals;
 
@@ -28,6 +31,7 @@ public class DirectoryManagerTest {
 		subDirTree.getChildren().addAll(new TreeItem<>(subDirFileOne), new TreeItem<>(subDirFileTwo));
 		expectedTree.getChildren().addAll(subDirTree, new TreeItem<>(rootFileOne), new TreeItem<>(rootFileTwo));
 		
+		
 		assertTreeEquals(expectedTree, actualTree);
 	}
 	
@@ -40,14 +44,6 @@ public class DirectoryManagerTest {
 		
 		for (int i=0; i<expectedChildren.size(); i++) {
 			assertTreeEquals(expectedChildren.get(i), actualChildren.get(i));
-		}
-	}
-	
-	private static void printTree(TreeItem<?> tree) {
-		System.out.println(tree.toString());
-		
-		for (TreeItem<?> child : tree.getChildren()) {
-			printTree(child);
 		}
 	}
 }
