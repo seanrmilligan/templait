@@ -3,6 +3,15 @@ package com.seanrmilligan.sitebuilder.controller;
 import javafx.scene.control.TreeItem;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Created by sean on 6/24/17.
@@ -11,23 +20,31 @@ public class DirectoryManager {
 	
 	public static TreeItem<File> getTree(File rootDir) {
 		TreeItem<File> rootNode = new TreeItem<>(rootDir);
+		List<TreeItem<File>> dirs = new ArrayList<>();
+		List<TreeItem<File>> files = new ArrayList<>();
+		Comparator<TreeItem<File>> nameComparator = new FileComparator();
 		
 		for (File item : rootDir.listFiles()) {
-			TreeItem<File> node;
-			
 			if (item.isDirectory()) {
-				node = getTree(item);
+				dirs.add(getTree(item));
 			} else {
-				node = new TreeItem<>(item);
+				files.add(new TreeItem<>(item));
 			}
-			
-			rootNode.getChildren().add(node);
 		}
+		
+		Collections.sort(dirs, nameComparator);
+		Collections.sort(files, nameComparator);
+		
+		rootNode.getChildren().addAll(dirs);
+		rootNode.getChildren().addAll(files);
 		
 		return rootNode;
 	}
-	
-	private class DirectoryWatcher {
-	
+}
+
+class FileComparator implements Comparator<TreeItem<File>> {
+	@Override
+	public int compare(TreeItem<File> a, TreeItem<File> b) {
+		return a.getValue().getName().compareTo(b.getValue().getName());
 	}
 }

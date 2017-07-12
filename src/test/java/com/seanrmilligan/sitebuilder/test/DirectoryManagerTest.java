@@ -1,13 +1,16 @@
 package com.seanrmilligan.sitebuilder.test;
 
 import com.seanrmilligan.sitebuilder.controller.DirectoryManager;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 import org.junit.Test;
 
 import java.io.File;
+import java.util.HashSet;
+import java.util.Observable;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 /**
  * Created by sean on 6/24/17.
@@ -28,7 +31,19 @@ public class DirectoryManagerTest {
 		subDirTree.getChildren().addAll(new TreeItem<>(subDirFileOne), new TreeItem<>(subDirFileTwo));
 		expectedTree.getChildren().addAll(subDirTree, new TreeItem<>(rootFileOne), new TreeItem<>(rootFileTwo));
 		
-		assertEquals(expectedTree, actualTree);
+		assertTreeEquals(expectedTree, actualTree);
+	}
+	
+	private static void assertTreeEquals(TreeItem<File> expectedTree, TreeItem<File> actualTree) {
+		ObservableList<TreeItem<File>> expectedChildren = expectedTree.getChildren();
+		ObservableList<TreeItem<File>> actualChildren = actualTree.getChildren();
+		
+		assertEquals(expectedTree.getValue(), actualTree.getValue());
+		assertEquals(expectedChildren.size(), actualChildren.size());
+		
+		for (int i=0; i<expectedChildren.size(); i++) {
+			assertTreeEquals(expectedChildren.get(i), actualChildren.get(i));
+		}
 	}
 	
 	private static void printTree(TreeItem<?> tree) {
