@@ -1,7 +1,5 @@
 package com.seanrmilligan.sitebuilder.view;
 
-import java.io.File;
-
 /**
  * Created by sean on 6/25/17.
  */

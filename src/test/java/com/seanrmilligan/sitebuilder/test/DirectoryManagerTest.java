@@ -1,14 +1,11 @@
 package com.seanrmilligan.sitebuilder.test;
 
 import com.seanrmilligan.sitebuilder.controller.DirectoryManager;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 import org.junit.Test;
 
 import java.io.File;
-import java.util.HashSet;
-import java.util.Observable;
 
 import static org.junit.Assert.assertEquals;
 
