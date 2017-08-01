@@ -13,13 +13,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
-public class MapMakerTest {
+public class MapMaker {
 	@Test
 	public void testMap() {
 		try {
-			File jsonFile = new File("src/test/resources/keys.json");
+			File jsonFile = new File("src/test/resources/MapMaker/keys.json");
 			
-			HashMap<String, String> actualMap = MapMaker.buildMap(jsonFile);
+			HashMap<String, String> actualMap = com.seanrmilligan.sitebuilder.file.MapMaker.buildMap(jsonFile);
 			HashMap<String, String> expectedMap = new HashMap<>();
 			
 			expectedMap.put("NAVIGATION", "<nav><a href=\"http://seanrmilligan.com\">Sean Milligan</a></nav>");

@@ -17,18 +17,18 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 
-public class DocumentMakerTest {
+public class DocumentMaker {
 	@Test
 	public void testDoc() {
 		try {
-			File jsonFile = new File("src/test/resources/keys.json");
-			File templateFile = new File("src/test/resources/template.html");
-			File expectedFile = new File("src/test/resources/expected.html");
-			File actualFile = new File("src/test/resources/out.html");
+			File jsonFile = new File("src/test/resources/DocumentMaker/keys.json");
+			File templateFile = new File("src/test/resources/DocumentMaker/template.html");
+			File expectedFile = new File("src/test/resources/DocumentMaker/expected.html");
+			File actualFile = new File("src/test/resources/DocumentMaker/out.html");
 			
 			HashMap<String, String> map = MapMaker.buildMap(jsonFile);
 			
-			DocumentMaker.makeDoc(templateFile, actualFile, StandardCharsets.UTF_8, map);
+			com.seanrmilligan.sitebuilder.file.DocumentMaker.makeDoc(templateFile, actualFile, StandardCharsets.UTF_8, map);
 			
 			List<String> expectedLines = FileUtils.readLines(expectedFile, StandardCharsets.UTF_8);
 			List<String> actualLines = FileUtils.readLines(actualFile, StandardCharsets.UTF_8);

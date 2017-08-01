@@ -15,17 +15,17 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by sean on 6/24/17.
  */
-public class DirectoryManagerTest {
+public class DirectoryManager {
 	@Test
 	public void shouldBuildTree() {
-		File rootDirectory = new File("src/test/resources/directory-manager/");
-		File rootFileOne = new File("src/test/resources/directory-manager/one.txt");
-		File rootFileTwo = new File("src/test/resources/directory-manager/two.txt");
-		File subDir = new File("src/test/resources/directory-manager/subOne/");
-		File subDirFileOne = new File("src/test/resources/directory-manager/subOne/one.txt");
-		File subDirFileTwo = new File("src/test/resources/directory-manager/subOne/two.txt");
+		File rootDirectory = new File("src/test/resources/DirectoryManager/");
+		File rootFileOne = new File("src/test/resources/DirectoryManager/one.txt");
+		File rootFileTwo = new File("src/test/resources/DirectoryManager/two.txt");
+		File subDir = new File("src/test/resources/DirectoryManager/subOne/");
+		File subDirFileOne = new File("src/test/resources/DirectoryManager/subOne/one.txt");
+		File subDirFileTwo = new File("src/test/resources/DirectoryManager/subOne/two.txt");
 		
-		TreeItem<File> actualTree = DirectoryManager.getTree(rootDirectory);
+		TreeItem<File> actualTree = com.seanrmilligan.sitebuilder.controller.DirectoryManager.getTree(rootDirectory);
 		TreeItem<File> expectedTree = new TreeItem<>(rootDirectory);
 		TreeItem<File> subDirTree = new TreeItem<>(subDir);
 		subDirTree.getChildren().addAll(new TreeItem<>(subDirFileOne), new TreeItem<>(subDirFileTwo));
