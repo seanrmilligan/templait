@@ -7,6 +7,7 @@ import static com.seanrmilligan.sitebuilder.controller.SiteManager.SITE_BUILDER_
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import com.seanrmilligan.sitebuilder.controller.SiteManager;
 import org.junit.Test;
 
 import java.io.File;
@@ -26,7 +27,7 @@ public class SiteManagerTest {
 		File sbFile = constructFileFromPath(sbDir.getAbsolutePath(), SITE_BUILDER_DATA);
 		
 		try {
-			com.seanrmilligan.sitebuilder.controller.SiteManager.loadSite(projDir);
+			SiteManager.loadSite(projDir);
 			fail("IOException not thrown.");
 		} catch (IOException e) {
 			assertEquals("File not found: " + sbFile.getAbsolutePath(), e.getMessage());
@@ -44,7 +45,7 @@ public class SiteManagerTest {
 		File sbDir = constructFileFromPath(projDir.getAbsolutePath(), SITE_BUILDER_DIRECTORY);
 		
 		try {
-			com.seanrmilligan.sitebuilder.controller.SiteManager.loadSite(projDir);
+			SiteManager.loadSite(projDir);
 			fail("IOException not thrown.");
 		} catch (IOException e) {
 			assertEquals("Site Builder directory not found: " + sbDir.getAbsolutePath(), e.getMessage());

@@ -1,5 +1,7 @@
 package com.seanrmilligan.sitebuilder.test;
 
+
+import com.seanrmilligan.sitebuilder.controller.DirectoryManager;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 import org.junit.Test;
@@ -21,7 +23,7 @@ public class DirectoryManagerTest {
 		File subDirFileOne = new File("src/test/resources/DirectoryManager/subOne/one.txt");
 		File subDirFileTwo = new File("src/test/resources/DirectoryManager/subOne/two.txt");
 		
-		TreeItem<File> actualTree = com.seanrmilligan.sitebuilder.controller.DirectoryManager.getTree(rootDirectory);
+		TreeItem<File> actualTree = DirectoryManager.getTree(rootDirectory);
 		TreeItem<File> expectedTree = new TreeItem<>(rootDirectory);
 		TreeItem<File> subDirTree = new TreeItem<>(subDir);
 		subDirTree.getChildren().addAll(new TreeItem<>(subDirFileOne), new TreeItem<>(subDirFileTwo));

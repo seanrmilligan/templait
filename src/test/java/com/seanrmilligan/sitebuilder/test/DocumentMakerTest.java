@@ -28,7 +28,7 @@ public class DocumentMakerTest {
 			
 			HashMap<String, String> map = MapMaker.buildMap(jsonFile);
 			
-			com.seanrmilligan.sitebuilder.file.DocumentMaker.makeDoc(templateFile, actualFile, StandardCharsets.UTF_8, map);
+			DocumentMaker.makeDoc(templateFile, actualFile, StandardCharsets.UTF_8, map);
 			
 			List<String> expectedLines = FileUtils.readLines(expectedFile, StandardCharsets.UTF_8);
 			List<String> actualLines = FileUtils.readLines(actualFile, StandardCharsets.UTF_8);

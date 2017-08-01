@@ -19,7 +19,7 @@ public class MapMakerTest {
 		try {
 			File jsonFile = new File("src/test/resources/MapMaker/keys.json");
 			
-			HashMap<String, String> actualMap = com.seanrmilligan.sitebuilder.file.MapMaker.buildMap(jsonFile);
+			HashMap<String, String> actualMap = MapMaker.buildMap(jsonFile);
 			HashMap<String, String> expectedMap = new HashMap<>();
 			
 			expectedMap.put("NAVIGATION", "<nav><a href=\"http://seanrmilligan.com\">Sean Milligan</a></nav>");
