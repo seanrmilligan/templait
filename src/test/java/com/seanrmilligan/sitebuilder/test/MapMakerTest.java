@@ -13,7 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
-public class MapMaker {
+public class MapMakerTest {
 	@Test
 	public void testMap() {
 		try {

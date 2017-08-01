@@ -17,7 +17,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 
-public class DocumentMaker {
+public class DocumentMakerTest {
 	@Test
 	public void testDoc() {
 		try {
