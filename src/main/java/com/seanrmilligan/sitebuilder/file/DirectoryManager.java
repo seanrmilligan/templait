@@ -1,4 +1,4 @@
-package com.seanrmilligan.sitebuilder.controller;
+package com.seanrmilligan.sitebuilder.file;
 
 import javafx.scene.control.TreeItem;
 
