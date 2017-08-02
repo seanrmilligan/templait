@@ -22,7 +22,7 @@ import static com.seanrmilligan.sitebuilder.view.Strings.APPLICATION_NAME;
 import static com.seanrmilligan.sitebuilder.view.Strings.SITE_DOMAIN_LABEL_TEXT;
 import static com.seanrmilligan.sitebuilder.view.Strings.SITE_NAME_LABEL_TEXT;
 
-public class SiteBuilderWindow implements SiteView, MultiFileView {
+public class SiteBuilderWindow implements MultiFileView {
 	FileManager files;
 	
 	Stage primaryStage;
@@ -37,12 +37,11 @@ public class SiteBuilderWindow implements SiteView, MultiFileView {
 	MenuItem quitProgMenuItem;
 	Menu editMenu;
 	MenuItem editSiteMenuItem;
+	Menu buildMenu;
+	MenuItem buildCurrentTabMenuItem;
+	MenuItem buildAllTabsMenuItem;
+	MenuItem buildAllMenuItem;
 	BorderPane body;
-	HBox infoBar;
-	Label siteNameLabel;
-	Label siteName;
-	Label siteDomainLabel;
-	Label siteDomain;
 	TreeView<File> directoryTree;
 	String pathPrefix;
 	String pathReplacement;
@@ -57,21 +56,6 @@ public class SiteBuilderWindow implements SiteView, MultiFileView {
 		this.pane.setTop(this.menus);
 		
 		this.body = new BorderPane();
-//		this.infoBar = new HBox();
-//
-//		this.siteNameLabel = new Label(SITE_NAME_LABEL_TEXT);
-//		this.siteName = new Label("");
-//		this.siteDomainLabel = new Label (SITE_DOMAIN_LABEL_TEXT);
-//		this.siteDomain = new Label("");
-//
-//		this.infoBar.getChildren().addAll(
-//			this.siteNameLabel,
-//			this.siteName,
-//			this.siteDomainLabel,
-//			this.siteDomain
-//		);
-//
-//		this.body.setTop(this.infoBar);
 		
 		this.directoryTree = new TreeView<>();
 		this.pathPrefix = "";
@@ -93,12 +77,6 @@ public class SiteBuilderWindow implements SiteView, MultiFileView {
 	
 	public void setFileManager(FileManager manager) {
 		this.files = manager;
-	}
-
-	public void setSiteName(String name) { this.siteName.setText(name); }
-
-	public void setSiteDomain(String domain) {
-		this.siteDomain.setText(domain);
 	}
 	
 	public void setDirectoryTree(TreeItem<File> tree) { this.directoryTree.setRoot(tree); }
@@ -133,10 +111,10 @@ public class SiteBuilderWindow implements SiteView, MultiFileView {
 		this.quitProgMenuItem.setMnemonicParsing(true);
 		
 		this.fileMenu.getItems().addAll(
-				this.newSiteMenuItem,
-				this.openSiteMenuItem,
-				this.closeSiteMenuItem,
-				this.quitProgMenuItem
+			this.newSiteMenuItem,
+			this.openSiteMenuItem,
+			this.closeSiteMenuItem,
+			this.quitProgMenuItem
 		);
 		
 		this.editMenu = new Menu("_Edit");
@@ -146,13 +124,32 @@ public class SiteBuilderWindow implements SiteView, MultiFileView {
 		this.editSiteMenuItem.setMnemonicParsing(true);
 		
 		this.editMenu.getItems().addAll(
-				this.editSiteMenuItem
+			this.editSiteMenuItem
 		);
 		
-		this.menus.getMenus().addAll(
-				this.fileMenu,
-				this.editMenu
+		this.buildMenu = new Menu("_Build");
+		this.buildCurrentTabMenuItem = new MenuItem("Current Tab");
+		this.buildAllTabsMenuItem = new MenuItem("All Tabs");
+		this.buildAllMenuItem = new MenuItem("All Files");
+		
+		this.buildMenu.getItems().addAll(
+			this.buildCurrentTabMenuItem,
+			this.buildAllTabsMenuItem,
+			this.buildAllMenuItem
 		);
+		
+		
+		this.menus.getMenus().addAll(
+			this.fileMenu,
+			this.editMenu,
+			this.buildMenu
+		);
+	}
+	
+	private void initEvents() {
+		this.buildAllMenuItem.setOnAction(e -> {
+			
+		});
 	}
 	
 	private void updateCellFactory() {

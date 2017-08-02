@@ -70,8 +70,6 @@ public class SiteBuilder extends Application {
 		if (this.site != null) {
 			this.gui = new SiteBuilderWindow(primaryStage);
 			this.gui.setTitleBar(APPLICATION_NAME + " | " + site.getName());
-			this.gui.setSiteName(site.getName());
-			this.gui.setSiteDomain(site.getDomain());
 			this.gui.setDirectoryTree(DirectoryManager.getTree(projDir));
 			this.gui.setFileManager(this.files);
 			this.gui.setMaximized(true);
