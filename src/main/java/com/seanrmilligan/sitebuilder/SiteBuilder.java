@@ -12,7 +12,6 @@ import java.util.Locale;
 
 import com.seanrmilligan.sitebuilder.view.gui.SiteDataDialog;
 import com.seanrmilligan.sitebuilder.view.gui.StartWindow;
-import com.seanrmilligan.utils.StartupAction;
 import javafx.application.Application;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -22,9 +21,7 @@ import static com.seanrmilligan.sitebuilder.view.Strings.LOAD_SITE_BUTTON_TEXT;
 import static com.seanrmilligan.sitebuilder.view.Strings.NEW_SITE_BUTTON_TEXT;
 
 public class SiteBuilder extends Application {
-	Site site;
 	SiteBuilderWindow gui;
-	File homeDir, projDir;
 	
 	FileManager files;
 
@@ -33,41 +30,40 @@ public class SiteBuilder extends Application {
 	 */
 	@Override
 	public void start(Stage primaryStage) {
-		this.site = null;
+		File projDir;
+		Site site;
 		
 		StartWindow launcherView = new StartWindow(primaryStage);
 		launcherView.setTitleBar(APPLICATION_NAME);
 		launcherView.setButtonText(NEW_SITE_BUTTON_TEXT, LOAD_SITE_BUTTON_TEXT);
 		launcherView.showAndWait();
-		StartupAction action = launcherView.getAction();
 		
-		switch (action) {
+		switch (launcherView.getAction()) {
 			case NEW:
-				this.getProjDir(primaryStage);
-				this.newSite(primaryStage);
+				projDir = this.getProjDir(primaryStage);
+				site = this.newSite(primaryStage, projDir);
 				this.files = new FileManager();
-				this.initWindow(primaryStage);
+				this.initWindow(primaryStage, projDir, site);
 				break;
 			case LOAD:
-				this.getProjDir(primaryStage);
-				this.loadSite();
+				projDir = this.getProjDir(primaryStage);
+				site = this.loadSite(projDir);
 				this.files = new FileManager();
-				this.initWindow(primaryStage);
+				this.initWindow(primaryStage, projDir, site);
 				break;
 			default:
 				System.exit(0);
 		}
 	}
 	
-	public void getProjDir(Stage primaryStage) {
+	public File getProjDir(Stage primaryStage) {
 		DirectoryChooser chooser = new DirectoryChooser();
-		this.homeDir = new File(System.getProperty("user.home"));
-		chooser.setInitialDirectory(this.homeDir);
-		this.projDir = chooser.showDialog(primaryStage);
+		chooser.setInitialDirectory(new File(System.getProperty("user.home")));
+		return chooser.showDialog(primaryStage);
 	}
 	
-	public void initWindow(Stage primaryStage) {
-		if (this.site != null) {
+	public void initWindow(Stage primaryStage, File projDir, Site site) {
+		if (site != null) {
 			this.gui = new SiteBuilderWindow(primaryStage);
 			this.gui.setTitleBar(APPLICATION_NAME + " | " + site.getName());
 			this.gui.setDirectoryTree(DirectoryManager.getTree(projDir));
@@ -77,11 +73,11 @@ public class SiteBuilder extends Application {
 		}
 	}
 	
-	public void setPathsRelativeToHome() {
-		this.gui.setDirectoryTreePathTruncation(this.homeDir.getAbsolutePath(), "~");
+	public void setPathsRelativeToHome(File homeDir) {
+		this.gui.setDirectoryTreePathTruncation(homeDir.getAbsolutePath(), "~");
 	}
 	
-	public void setPathsRelativeToProject() {
+	public void setPathsRelativeToProject(File projDir) {
 		this.gui.setDirectoryTreePathTruncation(projDir.getAbsolutePath(), projDir.getName());
 	}
 	
@@ -92,13 +88,15 @@ public class SiteBuilder extends Application {
 	public void setPathsToAbsolute() {
 		this.gui.setDirectoryTreePathTruncation("/","");
 	}
+	
 	public static void main(String[] args) {
 		Locale.setDefault(Locale.US);
 		launch(args);
 	}
 	
-	private void newSite(Stage primaryStage) {
+	private Site newSite(Stage primaryStage, File projDir) {
 		SiteDataDialog dialog = new SiteDataDialog(primaryStage);
+		Site site;
 		
 		ArrayList<String> schemaList = new ArrayList<>();
 		schemaList.add("http");
@@ -110,20 +108,23 @@ public class SiteBuilder extends Application {
 		dialog.init("Create a Site", "Create");
 		dialog.showAndWait();
 		
-		this.site = new Site(dialog.getSiteName(), dialog.getSiteDomain());
+		site = new Site(dialog.getSiteName(), dialog.getSiteDomain());
 		
 		try {
-			SiteManager.newSite(this.projDir, this.site);
+			SiteManager.newSite(projDir, site);
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
+		
+		return site;
 	}
 	
-	public void loadSite() {
+	private Site loadSite(File projDir) {
 		try {
-			this.site = SiteManager.loadSite(this.projDir);
+			return SiteManager.loadSite(projDir);
 		} catch (Exception e) {
 			System.out.println(e.toString());
+			return null;
 		}
 	}
 }

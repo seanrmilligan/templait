@@ -6,20 +6,20 @@ package com.seanrmilligan.sitebuilder.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import com.seanrmilligan.sitebuilder.file.MapMaker;
+import com.seanrmilligan.sitebuilder.file.MapManager;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
-public class MapMakerTest {
+public class MapManagerTest {
 	@Test
 	public void testMap() {
 		try {
-			File jsonFile = new File("src/test/resources/MapMaker/keys.json");
+			File jsonFile = new File("src/test/resources/MapManager/keys.json");
 			
-			HashMap<String, String> actualMap = MapMaker.buildMap(jsonFile);
+			HashMap<String, String> actualMap = MapManager.buildMap(jsonFile);
 			HashMap<String, String> expectedMap = new HashMap<>();
 			
 			expectedMap.put("NAVIGATION", "<nav><a href=\"http://seanrmilligan.com\">Sean Milligan</a></nav>");

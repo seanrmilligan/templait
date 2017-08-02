@@ -6,8 +6,8 @@ package com.seanrmilligan.sitebuilder.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import com.seanrmilligan.sitebuilder.file.DocumentMaker;
-import com.seanrmilligan.sitebuilder.file.MapMaker;
+import com.seanrmilligan.sitebuilder.file.MapManager;
+import com.seanrmilligan.sitebuilder.file.TemplateBuilder;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
@@ -21,14 +21,14 @@ public class TemplateBuilderTest {
 	@Test
 	public void testDoc() {
 		try {
-			File jsonFile = new File("src/test/resources/DocumentMaker/keys.json");
-			File templateFile = new File("src/test/resources/DocumentMaker/template.html");
-			File expectedFile = new File("src/test/resources/DocumentMaker/expected.html");
-			File actualFile = new File("src/test/resources/DocumentMaker/out.html");
+			File jsonFile = new File("src/test/resources/TemplateBuilder/keys.json");
+			File templateFile = new File("src/test/resources/TemplateBuilder/template.html");
+			File expectedFile = new File("src/test/resources/TemplateBuilder/expected.html");
+			File actualFile = new File("src/test/resources/TemplateBuilder/out.html");
 			
-			HashMap<String, String> map = MapMaker.buildMap(jsonFile);
+			HashMap<String, String> map = MapManager.buildMap(jsonFile);
 			
-			DocumentMaker.makeDoc(templateFile, actualFile, StandardCharsets.UTF_8, map);
+			TemplateBuilder.build(templateFile, actualFile, StandardCharsets.UTF_8, map);
 			
 			List<String> expectedLines = FileUtils.readLines(expectedFile, StandardCharsets.UTF_8);
 			List<String> actualLines = FileUtils.readLines(actualFile, StandardCharsets.UTF_8);
