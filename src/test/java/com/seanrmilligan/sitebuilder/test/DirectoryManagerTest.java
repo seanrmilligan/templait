@@ -1,7 +1,7 @@
 package com.seanrmilligan.sitebuilder.test;
 
 
-import com.seanrmilligan.sitebuilder.controller.DirectoryManager;
+import com.seanrmilligan.sitebuilder.file.DirectoryManager;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 import org.junit.Test;
