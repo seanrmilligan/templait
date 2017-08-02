@@ -14,7 +14,7 @@ import java.util.Iterator;
  * Created by sean on 6/19/17.
  */
 public class MapMaker {
-	public static HashMap<String, String> buildMap(File keyfile) throws FileNotFoundException, IOException {
+	public static HashMap<String, String> buildMap(File keyfile) throws IOException {
 		HashMap<String, String> map = new HashMap<>();
 		FileInputStream stream = new FileInputStream(keyfile);
 		String jsonText = IOUtils.toString(stream, "UTF-8");
