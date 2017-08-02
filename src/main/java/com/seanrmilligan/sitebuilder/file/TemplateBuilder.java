@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 /**
  * Created by sean on 6/19/17.
  */
-public class DocumentMaker {
+public class TemplateBuilder {
 	private static Pattern keyPattern = Pattern.compile("\\{\\{[A-Z][A-Z_]+}}");
 
 	public static void makeDoc(File in, File out, Charset encoding, HashMap<String, String> substitutions) throws IOException {
