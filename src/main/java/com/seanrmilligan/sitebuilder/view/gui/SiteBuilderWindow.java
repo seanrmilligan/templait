@@ -33,6 +33,7 @@ public class SiteBuilderWindow implements SiteView, MultiFileView {
 	MenuItem newSiteMenuItem;
 	MenuItem openSiteMenuItem;
 	MenuItem closeSiteMenuItem;
+	MenuItem saveFileMenuItem;
 	MenuItem quitProgMenuItem;
 	Menu editMenu;
 	MenuItem editSiteMenuItem;
@@ -51,59 +52,26 @@ public class SiteBuilderWindow implements SiteView, MultiFileView {
 		this.primaryStage = primaryStage;
 		this.pane = new BorderPane();
 
-		this.menus = new MenuBar();
-		this.fileMenu = new Menu("_File");
-		this.fileMenu.setMnemonicParsing(true);
-
-		this.newSiteMenuItem = new MenuItem("_New Site");
-		this.newSiteMenuItem.setMnemonicParsing(true);
-		this.openSiteMenuItem = new MenuItem("_Open Site");
-		this.openSiteMenuItem.setMnemonicParsing(true);
-		this.closeSiteMenuItem = new MenuItem("_Close Site");
-		this.closeSiteMenuItem.setMnemonicParsing(true);
-		this.quitProgMenuItem = new MenuItem("_Quit");
-		this.quitProgMenuItem.setMnemonicParsing(true);
-
-		this.fileMenu.getItems().addAll(
-			this.newSiteMenuItem,
-			this.openSiteMenuItem,
-			this.closeSiteMenuItem,
-			this.quitProgMenuItem
-		);
-		
-		this.editMenu = new Menu("_Edit");
-		this.editMenu.setMnemonicParsing(true);
-		
-		this.editSiteMenuItem = new MenuItem("S_ite");
-		this.editSiteMenuItem.setMnemonicParsing(true);
-		
-		this.editMenu.getItems().addAll(
-			this.editSiteMenuItem
-		);
-
-		this.menus.getMenus().addAll(
-			this.fileMenu,
-			this.editMenu
-		);
+		this.initMenus();
 
 		this.pane.setTop(this.menus);
 		
 		this.body = new BorderPane();
-		this.infoBar = new HBox();
-		
-		this.siteNameLabel = new Label(SITE_NAME_LABEL_TEXT);
-		this.siteName = new Label("");
-		this.siteDomainLabel = new Label (SITE_DOMAIN_LABEL_TEXT);
-		this.siteDomain = new Label("");
-		
-		this.infoBar.getChildren().addAll(
-			this.siteNameLabel,
-			this.siteName,
-			this.siteDomainLabel,
-			this.siteDomain
-		);
-		
-		this.body.setTop(this.infoBar);
+//		this.infoBar = new HBox();
+//
+//		this.siteNameLabel = new Label(SITE_NAME_LABEL_TEXT);
+//		this.siteName = new Label("");
+//		this.siteDomainLabel = new Label (SITE_DOMAIN_LABEL_TEXT);
+//		this.siteDomain = new Label("");
+//
+//		this.infoBar.getChildren().addAll(
+//			this.siteNameLabel,
+//			this.siteName,
+//			this.siteDomainLabel,
+//			this.siteDomain
+//		);
+//
+//		this.body.setTop(this.infoBar);
 		
 		this.directoryTree = new TreeView<>();
 		this.pathPrefix = "";
@@ -144,6 +112,48 @@ public class SiteBuilderWindow implements SiteView, MultiFileView {
 	public void setTitleBar (String title) { this.primaryStage.setTitle(title); }
 	
 	public void show() { this.primaryStage.show(); }
+	
+	public void setMaximized(boolean maximized) { primaryStage.setMaximized(maximized); }
+	
+	private void initMenus() {
+		this.menus = new MenuBar();
+		this.fileMenu = new Menu("_File");
+		this.fileMenu.setMnemonicParsing(true);
+		
+		this.newSiteMenuItem = new MenuItem("_New Site");
+		this.newSiteMenuItem.setMnemonicParsing(true);
+		this.newSiteMenuItem.setOnAction(event -> {
+		
+		});
+		this.openSiteMenuItem = new MenuItem("_Open Site");
+		this.openSiteMenuItem.setMnemonicParsing(true);
+		this.closeSiteMenuItem = new MenuItem("_Close Site");
+		this.closeSiteMenuItem.setMnemonicParsing(true);
+		this.quitProgMenuItem = new MenuItem("_Quit");
+		this.quitProgMenuItem.setMnemonicParsing(true);
+		
+		this.fileMenu.getItems().addAll(
+				this.newSiteMenuItem,
+				this.openSiteMenuItem,
+				this.closeSiteMenuItem,
+				this.quitProgMenuItem
+		);
+		
+		this.editMenu = new Menu("_Edit");
+		this.editMenu.setMnemonicParsing(true);
+		
+		this.editSiteMenuItem = new MenuItem("S_ite");
+		this.editSiteMenuItem.setMnemonicParsing(true);
+		
+		this.editMenu.getItems().addAll(
+				this.editSiteMenuItem
+		);
+		
+		this.menus.getMenus().addAll(
+				this.fileMenu,
+				this.editMenu
+		);
+	}
 	
 	private void updateCellFactory() {
 		this.directoryTree.setCellFactory(tree -> {
@@ -208,4 +218,6 @@ public class SiteBuilderWindow implements SiteView, MultiFileView {
 		newTab.setContent(editor);
 		this.editorTabs.getTabs().add(newTab);
 	}
+	
+	
 }
