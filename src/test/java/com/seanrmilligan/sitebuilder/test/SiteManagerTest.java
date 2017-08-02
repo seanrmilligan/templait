@@ -4,20 +4,47 @@ import static com.seanrmilligan.sitebuilder.controller.SiteManager.constructFile
 import static com.seanrmilligan.sitebuilder.controller.SiteManager.SITE_BUILDER_DATA;
 import static com.seanrmilligan.sitebuilder.controller.SiteManager.SITE_BUILDER_DIRECTORY;
 
+import static com.seanrmilligan.sitebuilder.view.Strings.DIR_ALREADY_EXISTS;
+import static com.seanrmilligan.sitebuilder.view.Strings.DIR_DNE;
+import static com.seanrmilligan.sitebuilder.view.Strings.FILE_DNE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import com.seanrmilligan.sitebuilder.controller.SiteManager;
+import com.seanrmilligan.sitebuilder.file.MapMaker;
+import com.seanrmilligan.sitebuilder.model.Site;
+import org.apache.commons.io.FileUtils;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 public class SiteManagerTest {
 	
-	@Test
-	public void projFileAlreadyExists() {
+	@Rule
+	public TemporaryFolder temporaryFolder = new TemporaryFolder();
 	
+	@Test
+	public void newSite() {
+		Site site = new Site("Example Site", "example.com");
+		
+		try {
+			File projDir = temporaryFolder.newFolder();
+			SiteManager.newSite(projDir, site);
+			
+			File sbDir = constructFileFromPath(projDir.getAbsolutePath(), SiteManager.SITE_BUILDER_DIRECTORY);
+			File sbFile = constructFileFromPath(sbDir.getAbsolutePath(), SiteManager.SITE_BUILDER_DATA);
+			
+			assertEquals(true, sbDir.exists());
+			assertEquals(true, sbFile.exists());
+			assertEquals(true, site.equals(SiteManager.loadSite(projDir)));
+		} catch (IOException e) {
+			fail(e.toString());
+		}
 	}
 	
 	@Test
@@ -30,13 +57,21 @@ public class SiteManagerTest {
 			SiteManager.loadSite(projDir);
 			fail("IOException not thrown.");
 		} catch (IOException e) {
-			assertEquals("File not found: " + sbFile.getAbsolutePath(), e.getMessage());
+			assertEquals(FILE_DNE + sbFile.getAbsolutePath(), e.getMessage());
 		}
 	}
 	
 	@Test
 	public void sbDirAlreadyExists() {
-	
+		File projDir = new File("src/test/resources/SiteManager/sb-dir-already-exists/");
+		File sbDir = constructFileFromPath(projDir.getAbsolutePath(), SITE_BUILDER_DIRECTORY);
+		
+		try {
+			SiteManager.newSite(projDir, new Site("Example Site", "example.com"));
+			fail("IOException not thrown.");
+		} catch (IOException e) {
+			assertEquals(DIR_ALREADY_EXISTS + sbDir.getAbsolutePath(), e.getMessage());
+		}
 	}
 	
 	@Test
@@ -48,7 +83,7 @@ public class SiteManagerTest {
 			SiteManager.loadSite(projDir);
 			fail("IOException not thrown.");
 		} catch (IOException e) {
-			assertEquals("Site Builder directory not found: " + sbDir.getAbsolutePath(), e.getMessage());
+			assertEquals(DIR_DNE + sbDir.getAbsolutePath(), e.getMessage());
 		}
 	}
 }
