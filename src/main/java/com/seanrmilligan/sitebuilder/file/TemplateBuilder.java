@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 public class TemplateBuilder {
 	private static Pattern keyPattern = Pattern.compile("\\{\\{[A-Z][A-Z_]+}}");
 
-	public static void makeDoc(File in, File out, Charset encoding, HashMap<String, String> substitutions) throws IOException {
+	public static void build(File in, File out, Charset encoding, HashMap<String, String> substitutions) throws IOException {
 		StringBuilder document = new StringBuilder();
 		String template = new String(Files.readAllBytes(Paths.get(in.getPath())), encoding);
 		int writtenIndex = -1;
