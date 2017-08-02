@@ -36,4 +36,10 @@ public class Site {
     }
     public void remSubdomain(String subdomain) { this.subdomains.remove(subdomain); }
     public List<String> getSubdomains() { return this.subdomains.stream().collect(Collectors.toList()); }
+    
+    public boolean equals (Site site) {
+    	return this.name.equals(site.name) &&
+				this.domain.equals(site.domain) &&
+				this.subdomains.equals(site.subdomains);
+	}
 }
