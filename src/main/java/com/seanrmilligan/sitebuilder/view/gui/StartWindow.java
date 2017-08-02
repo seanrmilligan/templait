@@ -1,6 +1,6 @@
 package com.seanrmilligan.sitebuilder.view.gui;
 
-import com.seanrmilligan.utils.Action;
+import com.seanrmilligan.utils.StartupAction;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -17,7 +17,7 @@ import static com.seanrmilligan.sitebuilder.view.gui.Constants.MIN_WIDTH;
  * Created by sean on 6/6/17.
  */
 public class StartWindow extends Stage {
-    Action action;
+    StartupAction action;
     Scene scene;
     GridPane pane;
     Label appTitle;
@@ -35,15 +35,15 @@ public class StartWindow extends Stage {
         
         this.appTitle.setFont(new Font(15));
 
-        this.action = Action.NO_ACTION;
+        this.action = StartupAction.NO_ACTION;
 
         this.newButton.setOnAction(e -> {
-            this.action = Action.NEW;
+            this.action = StartupAction.NEW;
             this.hide();
         });
 
         this.loadButton.setOnAction(e -> {
-            this.action = Action.LOAD;
+            this.action = StartupAction.LOAD;
             this.hide();
         });
         
@@ -70,7 +70,7 @@ public class StartWindow extends Stage {
     	this.loadButton.setText(loadSiteButtonText);
 	}
 
-    public Action getAction() {
+    public StartupAction getAction() {
         return this.action;
     }
 }
