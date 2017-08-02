@@ -1,8 +1,8 @@
 package com.seanrmilligan.sitebuilder.test;
 
-import static com.seanrmilligan.sitebuilder.controller.SiteManager.constructFileFromPath;
-import static com.seanrmilligan.sitebuilder.controller.SiteManager.SITE_BUILDER_DATA;
-import static com.seanrmilligan.sitebuilder.controller.SiteManager.SITE_BUILDER_DIRECTORY;
+import static com.seanrmilligan.sitebuilder.file.SiteManager.constructFileFromPath;
+import static com.seanrmilligan.sitebuilder.file.SiteManager.SITE_BUILDER_DATA;
+import static com.seanrmilligan.sitebuilder.file.SiteManager.SITE_BUILDER_DIRECTORY;
 
 import static com.seanrmilligan.sitebuilder.view.Strings.DIR_ALREADY_EXISTS;
 import static com.seanrmilligan.sitebuilder.view.Strings.DIR_DNE;
@@ -10,18 +10,14 @@ import static com.seanrmilligan.sitebuilder.view.Strings.FILE_DNE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import com.seanrmilligan.sitebuilder.controller.SiteManager;
-import com.seanrmilligan.sitebuilder.file.MapMaker;
+import com.seanrmilligan.sitebuilder.file.SiteManager;
 import com.seanrmilligan.sitebuilder.model.Site;
-import org.apache.commons.io.FileUtils;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
 
 public class SiteManagerTest {
 	

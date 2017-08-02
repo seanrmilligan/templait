@@ -1,4 +1,4 @@
-package com.seanrmilligan.sitebuilder.controller;
+package com.seanrmilligan.sitebuilder.file;
 
 import com.seanrmilligan.sitebuilder.model.Site;
 

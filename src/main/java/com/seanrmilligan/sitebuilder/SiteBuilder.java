@@ -2,7 +2,7 @@ package com.seanrmilligan.sitebuilder;
 
 import com.seanrmilligan.sitebuilder.controller.DirectoryManager;
 import com.seanrmilligan.sitebuilder.controller.FileManager;
-import com.seanrmilligan.sitebuilder.controller.SiteManager;
+import com.seanrmilligan.sitebuilder.file.SiteManager;
 import com.seanrmilligan.sitebuilder.model.Site;
 import com.seanrmilligan.sitebuilder.view.gui.SiteBuilderWindow;
 
