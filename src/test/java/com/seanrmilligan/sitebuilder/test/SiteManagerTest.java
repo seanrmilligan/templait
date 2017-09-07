@@ -1,8 +1,8 @@
 package com.seanrmilligan.sitebuilder.test;
 
-import static com.seanrmilligan.sitebuilder.file.SiteManager.constructFileFromPath;
-import static com.seanrmilligan.sitebuilder.file.SiteManager.SITE_BUILDER_DATA;
-import static com.seanrmilligan.sitebuilder.file.SiteManager.SITE_BUILDER_DIRECTORY;
+import static com.seanrmilligan.sitebuilder.file.FileUtils.constructFileFromPath;
+import static com.seanrmilligan.sitebuilder.file.FileNames.SITE_BUILDER_DATA;
+import static com.seanrmilligan.sitebuilder.file.FileNames.SITE_BUILDER_DIRECTORY;
 
 import static com.seanrmilligan.sitebuilder.view.Strings.DIR_ALREADY_EXISTS;
 import static com.seanrmilligan.sitebuilder.view.Strings.DIR_DNE;
@@ -10,6 +10,7 @@ import static com.seanrmilligan.sitebuilder.view.Strings.FILE_DNE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import com.seanrmilligan.sitebuilder.file.FileNames;
 import com.seanrmilligan.sitebuilder.file.SiteManager;
 import com.seanrmilligan.sitebuilder.model.Site;
 import org.junit.Rule;
@@ -32,8 +33,8 @@ public class SiteManagerTest {
 			File projDir = temporaryFolder.newFolder();
 			SiteManager.newSite(projDir, site);
 			
-			File sbDir = constructFileFromPath(projDir.getAbsolutePath(), SiteManager.SITE_BUILDER_DIRECTORY);
-			File sbFile = constructFileFromPath(sbDir.getAbsolutePath(), SiteManager.SITE_BUILDER_DATA);
+			File sbDir = constructFileFromPath(projDir.getAbsolutePath(), FileNames.SITE_BUILDER_DIRECTORY);
+			File sbFile = constructFileFromPath(sbDir.getAbsolutePath(), FileNames.SITE_BUILDER_DATA);
 			
 			assertEquals(true, sbDir.exists());
 			assertEquals(true, sbFile.exists());
