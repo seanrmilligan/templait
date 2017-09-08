@@ -16,32 +16,23 @@ import static com.seanrmilligan.sitebuilder.view.Strings.*;
  * Created by sean on 6/6/17.
  */
 public class SiteManager {
-	public static final String SITE_BUILDER_DIRECTORY = ".sb";
-	public static final String SITE_BUILDER_DATA = "project.json";
 	
 	public static final String JSON_KEY_SITE_NAME = "siteName";
 	public static final String JSON_KEY_SITE_DOMAIN = "siteDomain";
 	public static final String JSON_KEY_SITE_SUBDOMAINS = "subdomains";
 	
 	public static void newSite(File projDir, Site site) throws NullPointerException, IOException {
-		File sbDir = constructFileFromPath(projDir.getAbsolutePath(), SiteManager.SITE_BUILDER_DIRECTORY);
-		File sbFile = constructFileFromPath(sbDir.getAbsolutePath(), SITE_BUILDER_DATA);
+		File sbDir = FileUtils.constructFileFromPath(projDir.getAbsolutePath(), FileNames.SITE_BUILDER_DIRECTORY);
+		File includeDir = FileUtils.constructFileFromPath(sbDir.getAbsolutePath(), FileNames.SITE_BUILDER_INCLUDE_DIRECTORY);
+		File projectFile = FileUtils.constructFileFromPath(sbDir.getAbsolutePath(), FileNames.SITE_BUILDER_DATA);
+		File mapFile = FileUtils.constructFileFromPath(sbDir.getAbsolutePath(), FileNames.SITE_BUILDER_MAP);
+		File templateDir = FileUtils.constructFileFromPath(projDir.getAbsolutePath(), FileNames.TEMPLATE_DIRECTORY);
 		
-		if (sbDir.exists()) {
-			if (sbDir.isDirectory()) {
-				throw new FileAlreadyExistsException(DIR_ALREADY_EXISTS + sbDir.getAbsolutePath());
-			} else {
-				throw new FileAlreadyExistsException(DIR_NAME_COLLISION + sbDir.getAbsolutePath());
-			}
-		}
-		
-		if (!sbDir.mkdir()) {
-			throw new FileNotFoundException(DIR_CREATION_ERROR + sbDir.getAbsolutePath());
-		}
-		
-		if (!sbFile.createNewFile()) {
-			throw new FileNotFoundException(FILE_CREATION_ERROR + sbFile.getAbsolutePath());
-		}
+		makeDir(sbDir);
+		makeDir(includeDir);
+		makeFile(projectFile);
+		makeFile(mapFile);
+		makeDir(templateDir);
 		
 		saveSite(projDir, site);
 	}
@@ -93,7 +84,7 @@ public class SiteManager {
 			throw new NotDirectoryException(NOT_A_DIR + projDir.getAbsolutePath());
 		} else {
 			String projPath = projDir.getAbsolutePath();
-			File sbDir = constructFileFromPath(projPath, SiteManager.SITE_BUILDER_DIRECTORY);
+			File sbDir = FileUtils.constructFileFromPath(projPath, FileNames.SITE_BUILDER_DIRECTORY);
 			
 			if (!sbDir.exists()) {
 				throw new FileNotFoundException(DIR_DNE + sbDir.getAbsolutePath());
@@ -106,7 +97,7 @@ public class SiteManager {
 	private static File getSBFile(File projDir) throws FileNotFoundException, NotDirectoryException {
 		// getSBDir validates projDir and throws the appropriate exceptions
 		String sbPath = getSBDir(projDir).getAbsolutePath();
-		File sbFile = constructFileFromPath(sbPath, SiteManager.SITE_BUILDER_DATA);
+		File sbFile = FileUtils.constructFileFromPath(sbPath, FileNames.SITE_BUILDER_DATA);
 		
 		if (!sbFile.exists()) {
 			throw new FileNotFoundException(FILE_DNE + sbFile.getAbsolutePath());
@@ -115,15 +106,23 @@ public class SiteManager {
 		return sbFile;
 	}
 	
-	public static File constructFileFromPath(String path, String filename) {
-		File file;
-		
-		if (path.endsWith(File.separator)) {
-			file = new File(path + filename);
-		} else {
-			file = new File(path + File.separator + filename);
+	private static void makeDir(File dir) throws FileAlreadyExistsException, FileNotFoundException {
+		if (dir.exists()) {
+			if (dir.isDirectory()) {
+				throw new FileAlreadyExistsException(DIR_ALREADY_EXISTS + dir.getAbsolutePath());
+			} else {
+				throw new FileAlreadyExistsException(DIR_NAME_COLLISION + dir.getAbsolutePath());
+			}
 		}
 		
-		return file;
+		if (!dir.mkdir()) {
+			throw new FileNotFoundException(DIR_CREATION_ERROR + dir.getAbsolutePath());
+		}
+	}
+	
+	private static void makeFile(File file) throws IOException {
+		if (!file.createNewFile()) {
+			throw new FileNotFoundException(FILE_CREATION_ERROR + file.getAbsolutePath());
+		}
 	}
 }

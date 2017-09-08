@@ -26,7 +26,7 @@ public class TemplateBuilderTest {
 			File expectedFile = new File("src/test/resources/TemplateBuilder/basic/expected.html");
 			File actualFile = new File("src/test/resources/TemplateBuilder/basic/out.html");
 			
-			HashMap<String, String> map = MapManager.buildMap(jsonFile);
+			HashMap<String, String> map = MapManager.loadMap(jsonFile, StandardCharsets.UTF_8);
 			
 			TemplateBuilder.build(templateFile, actualFile, StandardCharsets.UTF_8, map);
 			
@@ -42,7 +42,7 @@ public class TemplateBuilderTest {
 			File jsonFile = new File("src/test/resources/TemplateBuilder/nonexistent-key-in-doc/keys.json");
 			File templateFile = new File("src/test/resources/TemplateBuilder/nonexistent-key-in-doc/template.html");
 			
-			HashMap<String, String> map = MapManager.buildMap(jsonFile);
+			HashMap<String, String> map = MapManager.loadMap(jsonFile, StandardCharsets.UTF_8);
 			
 			boolean missingKey = !TemplateBuilder.scan(templateFile, StandardCharsets.UTF_8, map);
 			
@@ -60,7 +60,7 @@ public class TemplateBuilderTest {
 			File expectedFile = new File("src/test/resources/TemplateBuilder/nonexistent-key-in-doc/expected.html");
 			File actualFile = new File("src/test/resources/TemplateBuilder/nonexistent-key-in-doc/out.html");
 			
-			HashMap<String, String> map = MapManager.buildMap(jsonFile);
+			HashMap<String, String> map = MapManager.loadMap(jsonFile, StandardCharsets.UTF_8);
 			
 			TemplateBuilder.build(templateFile, actualFile, StandardCharsets.UTF_8, map);
 			
@@ -76,7 +76,7 @@ public class TemplateBuilderTest {
 			File jsonFile = new File("src/test/resources/TemplateBuilder/empty/keys.json");
 			File templateFile = new File("src/test/resources/TemplateBuilder/empty/template.html");
 			
-			HashMap<String, String> map = MapManager.buildMap(jsonFile);
+			HashMap<String, String> map = MapManager.loadMap(jsonFile, StandardCharsets.UTF_8);
 			
 			boolean missingKey = !TemplateBuilder.scan(templateFile, StandardCharsets.UTF_8, map);
 			
@@ -94,7 +94,25 @@ public class TemplateBuilderTest {
 			File expectedFile = new File("src/test/resources/TemplateBuilder/empty/expected.html");
 			File actualFile = new File("src/test/resources/TemplateBuilder/empty/out.html");
 			
-			HashMap<String, String> map = MapManager.buildMap(jsonFile);
+			HashMap<String, String> map = MapManager.loadMap(jsonFile, StandardCharsets.UTF_8);
+			
+			TemplateBuilder.build(templateFile, actualFile, StandardCharsets.UTF_8, map);
+			
+			assertFileEquals(expectedFile, actualFile);
+		} catch (IOException e) {
+			fail(e.toString());
+		}
+	}
+	
+	@Test
+	public void buildDocWithKeysAtBounds() {
+		try {
+			File jsonFile = new File("src/test/resources/TemplateBuilder/keys-at-file-bounds/keys.json");
+			File templateFile = new File("src/test/resources/TemplateBuilder/keys-at-file-bounds/template.html");
+			File expectedFile = new File("src/test/resources/TemplateBuilder/keys-at-file-bounds/expected.html");
+			File actualFile = new File("src/test/resources/TemplateBuilder/keys-at-file-bounds/out.html");
+			
+			HashMap<String, String> map = MapManager.loadMap(jsonFile, StandardCharsets.UTF_8);
 			
 			TemplateBuilder.build(templateFile, actualFile, StandardCharsets.UTF_8, map);
 			

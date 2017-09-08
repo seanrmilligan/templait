@@ -54,8 +54,8 @@ public class StartWindow extends Stage {
 		this.pane.setHgap(5);
 		this.pane.setVgap(5);
 
-		this.pane.setMinWidth(MIN_WIDTH);
-		this.pane.setMinHeight(MIN_HEIGHT);
+//		this.pane.setMinWidth(MIN_WIDTH);
+//		this.pane.setMinHeight(MIN_HEIGHT);
         
         this.scene = new Scene(this.pane);
         this.setScene(this.scene);

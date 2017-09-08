@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
 public class MapManagerTest {
@@ -19,7 +20,7 @@ public class MapManagerTest {
 		try {
 			File jsonFile = new File("src/test/resources/MapManager/keys.json");
 			
-			HashMap<String, String> actualMap = MapManager.buildMap(jsonFile);
+			HashMap<String, String> actualMap = MapManager.loadMap(jsonFile, StandardCharsets.UTF_8);
 			HashMap<String, String> expectedMap = new HashMap<>();
 			
 			expectedMap.put("NAVIGATION", "<nav><a href=\"http://seanrmilligan.com\">Sean Milligan</a></nav>");
