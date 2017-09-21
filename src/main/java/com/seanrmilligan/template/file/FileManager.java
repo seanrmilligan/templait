@@ -2,6 +2,7 @@ package com.seanrmilligan.template.file;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileAlreadyExistsException;
@@ -46,8 +47,6 @@ public class FileManager {
 		HashMap<String, String> substitutions = MapManager.loadMap(this.substitutionsFile, StandardCharsets.UTF_8);
 		org.apache.commons.io.FileUtils.cleanDirectory(buildDir);
 		
-		extensions.stream().forEach(e -> System.out.println(e));
-		
 		buildAll(templateDir, templateDir, includesDir, buildDir, extensions, includes, substitutions);
 	}
 	
@@ -55,9 +54,9 @@ public class FileManager {
 		makeDir(this.buildDir);
 		makeDir(this.includesDir);
 		makeDir(this.templateDir);
-		makeFile(this.extensionsFile);
-		makeFile(this.includesFile);
-		makeFile(this.substitutionsFile);
+		makeFile(this.extensionsFile, "[]");
+		makeFile(this.includesFile, "{}");
+		makeFile(this.substitutionsFile, "{}");
 	}
 	
 	public void showIncludes() throws IOException {
@@ -77,8 +76,6 @@ public class FileManager {
 		String buildDirPath = buildDir.getCanonicalPath();
 		String outPath = template.getCanonicalPath().replaceFirst(templateDirPath, buildDirPath);
 		File out = new File(outPath);
-		
-		System.out.println(getExtension(template));
 		
 		if (extensions.contains(getExtension(template))) {
 			System.out.println("Building " + template.getCanonicalPath());
@@ -122,10 +119,14 @@ public class FileManager {
 		}
 	}
 	
-	private static void makeFile(File file) throws IOException {
+	private static void makeFile(File file, String content) throws IOException {
 		if (!file.createNewFile()) {
 			throw new FileNotFoundException(FILE_CREATION_ERROR + file.getCanonicalPath());
 		}
+		
+		FileOutputStream stream = new FileOutputStream(file);
+		stream.write(content.getBytes());
+		stream.close();
 	}
 	
 	private void showMap(String title, HashMap<String, String> map, String filename) {
