@@ -4,7 +4,7 @@ sites/
 .settings/
 .idea/
 data/
-pom.xml
 *.iml
-src/main/
+target/dependency-reduced-pom.xml
 target/
+dependency-reduced-pom.xml
