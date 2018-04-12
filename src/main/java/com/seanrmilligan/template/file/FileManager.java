@@ -52,7 +52,11 @@ public class FileManager {
 		
 		buildAll(templateDir, templateDir, includesDir, buildDir, extensions, includes, substitutions);
 	}
-	
+
+	/**
+	 * Makes a new project in the @projectDir this class was initialized with.
+	 * @throws IOException If any of the directories or files fail to create.
+	 */
 	public void newTemplate() throws IOException {
 		makeDir(this.buildDir);
 		makeDir(this.includesDir);
@@ -107,6 +111,13 @@ public class FileManager {
 			}
 		}
 	}
+
+	/**
+	 *
+	 * @param dir The directory to create
+	 * @throws IOException If the directory already exists, the name of the directory collides with a non-directory
+	 *     file, or the method fails to make the directory
+	 */
 	
 	private static void makeDir(File dir) throws IOException {
 		if (dir.exists()) {
@@ -121,7 +132,13 @@ public class FileManager {
 			throw new FileNotFoundException(DIR_CREATION_ERROR + dir.getCanonicalPath());
 		}
 	}
-	
+
+	/**
+	 *
+	 * @param file The file (which should not already exist) to save the @content to
+	 * @param content The content to write out to @file
+	 * @throws IOException If this method fails to make the file
+	 */
 	private static void makeFile(File file, String content) throws IOException {
 		if (!file.createNewFile()) {
 			throw new FileNotFoundException(FILE_CREATION_ERROR + file.getCanonicalPath());
