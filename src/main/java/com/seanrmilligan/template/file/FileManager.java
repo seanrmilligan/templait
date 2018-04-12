@@ -45,6 +45,9 @@ public class FileManager {
 		HashSet<String> extensions = ArrayManager.loadSet(this.extensionsFile, StandardCharsets.UTF_8);
 		HashMap<String, String> includes = MapManager.loadMap(this.includesFile, StandardCharsets.UTF_8);
 		HashMap<String, String> substitutions = MapManager.loadMap(this.substitutionsFile, StandardCharsets.UTF_8);
+
+		if (!buildDir.exists()) makeDir(buildDir);
+
 		org.apache.commons.io.FileUtils.cleanDirectory(buildDir);
 		
 		buildAll(templateDir, templateDir, includesDir, buildDir, extensions, includes, substitutions);
